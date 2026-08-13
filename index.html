@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoFetch — Digital assets worth owning</title>
+<meta name="description" content="GoFetch is a privately held collection of exceptional domain names, presented and made available for acquisition by the Fenton / Butcher partnership.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 fill=%22%2315130E%22/><g fill=%22none%22 stroke=%22%23E8A33D%22 stroke-width=%221.6%22><line x1=%2212%22 y1=%225%22 x2=%225%22 y2=%2213%22/><line x1=%2212%22 y1=%225%22 x2=%2219%22 y2=%2213%22/><line x1=%225%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/><line x1=%2219%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/></g><circle cx=%2212%22 cy=%225%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%225%22 cy=%2213%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%2219%22 cy=%2213%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%2212%22 cy=%2220%22 r=%221.9%22 fill=%22%23E8A33D%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <span class="mark-slot" data-size="22"></span>
+      <span class="brand-word">GoFetch</span>
+    </a>
+    <nav class="main-nav">
+      <a href="/" class="current">Home</a>
+      <a href="/collection.html">Collection</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <a class="nav-cta" href="#" data-enquire="">Contact</a>
+  </div>
+</header>
+
+<div id="lander-app" style="display:none;"></div>
+
+<main id="home-app">
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-eyebrow mono">Privately held collection</div>
+      <h1 class="hero-word">Fetch the<br>right name<span class="cursor">&nbsp;</span></h1>
+      <p class="hero-line">GoFetch represents a curated portfolio of exceptional domain names — a small public collection, and a much larger one held privately.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span style="margin-left:6px;">gofetch — retrieval terminal</span>
+        </div>
+        <form id="terminal-form" class="terminal-form">
+          <span class="terminal-prompt">&gt;</span>
+          <input id="terminal-input" class="terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Search the collection...">
+          <button class="terminal-submit" type="submit">Fetch</button>
+        </form>
+        <div id="terminal-result" class="terminal-result"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="featured">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">Selected inventory</div>
+          <h2 class="section-title">Featured assets</h2>
+        </div>
+        <a class="section-link" href="/collection.html">View full collection →</a>
+      </div>
+      <div id="featured-grid" class="asset-grid"></div>
+    </div>
+  </section>
+
+  <section class="finder-band">
+    <div class="container finder-inner">
+      <div>
+        <h3>Looking for something specific?</h3>
+        <p>Tell us what you're building. We may own something relevant that isn't publicly listed.</p>
+      </div>
+      <button class="btn btn-primary" data-enquire="" data-mode="finder">Tell us what you're building</button>
+    </div>
+  </section>
+
+  <section class="about-strip">
+    <div class="container">
+      <div class="section-eyebrow">Operated by Fenton / Butcher</div>
+      <p>GoFetch is a privately owned collection, built through deliberate acquisition over time rather than assembled for resale. We're glad to discuss any asset, publicly listed or not.</p>
+      <p style="margin-top:18px;"><a class="section-link" href="/about.html">Read more about GoFetch →</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <span>© <span id="year"></span> GoFetch — a Fenton / Butcher partnership</span>
+    <span><a href="/about.html">About</a> &nbsp;·&nbsp; <a href="/collection.html">Collection</a> &nbsp;·&nbsp; <a href="#" data-enquire="">Contact</a></span>
+  </div>
+</footer>
+
+<div id="enquiry-overlay" class="modal-overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="enquiry-title">
+    <div class="modal-head">
+      <h3 id="enquiry-title" class="modal-title">Make an enquiry</h3>
+      <button id="enquiry-close" class="modal-close" aria-label="Close">&times;</button>
+    </div>
+    <p class="modal-sub">We reply directly — no account, no mailing list.</p>
+    <form id="enquiry-form" name="enquiry" method="POST" data-netlify="true" netlify-honeypot="enq-hp">
+      <input type="hidden" name="form-name" value="enquiry">
+      <input type="text" id="enq-hp" name="enq-hp" class="hp-field" tabindex="-1" autocomplete="off">
+      <div class="field"><label for="enq-name">Name</label><input id="enq-name" name="name" type="text" required></div>
+      <div class="field"><label for="enq-email">Email</label><input id="enq-email" name="email" type="email" required></div>
+      <div class="field"><label for="enq-company">Company</label><input id="enq-company" name="company" type="text"></div>
+      <div class="field"><label for="enq-domain">Domain</label><input id="enq-domain" name="domain" type="text"></div>
+      <div class="field"><label for="enq-budget">Offer / budget</label><input id="enq-budget" name="budget" type="text"></div>
+      <div class="field"><label for="enq-message">Message</label><textarea id="enq-message" name="message"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Send enquiry</button>
+      <div id="enquiry-status" class="form-status" role="status"></div>
+    </form>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+backend:
+  name: github
+  repo: "YOUR-GITHUB-USERNAME/gofetch"   # <-- replace with your actual owner/repo, e.g. "dfenton/gofetch"
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# Media (logo) uploads land in /images/logos and are referenced by that
+# public path in data/domains.json — no separate media server needed.
+media_folder: "images/logos"
+public_folder: "/images/logos"
+
+publish_mode: simple
+
+collections:
+  - name: "domains"
+    label: "Domains"
+    files:
+      - name: "inventory"
+        label: "Domain Inventory"
+        file: "data/domains.json"
+        description: "Every domain listed on GoFetch. Add, edit, or remove entries here — publishing triggers a site rebuild automatically."
+        fields:
+          - label: "Domains"
+            name: "domains"
+            widget: "list"
+            summary: "{{fields.domain}} — {{fields.pricingMode}}"
+            fields:
+              - { label: "Domain (e.g. example.com)", name: "domain", widget: "string" }
+              - { label: "Extension (e.g. com)", name: "extension", widget: "string" }
+              - { label: "Logo (static image)", name: "logo", widget: "image", required: false, hint: "Optional. Used if no logo video is set." }
+              - { label: "Logo (video, e.g. an animated mark)", name: "logoVideo", widget: "file", required: false, hint: "Optional mp4/webm. Takes priority over the static logo image on the lander page." }
+              - { label: "Tagline", name: "tagline", widget: "string", required: false }
+              - { label: "Description", name: "description", widget: "text" }
+              - label: "Categories"
+                name: "category"
+                widget: "list"
+                field: { label: "Category", name: "value", widget: "string" }
+              - label: "Acquisition mode"
+                name: "pricingMode"
+                widget: "select"
+                options:
+                  - { label: "Buy now (fixed price)", value: "buy_now" }
+                  - { label: "Make offer", value: "make_offer" }
+                  - { label: "Privately held", value: "private" }
+              - { label: "Price (USD, leave blank for POA/private)", name: "price", widget: "number", required: false, value_type: "int" }
+              - { label: "Show on homepage as Featured (max 6)", name: "featured", widget: "boolean", default: false }
+              - { label: "Enable dedicated lander (renders when this domain's DNS points here)", name: "hasLander", widget: "boolean", default: true }
+              - { label: "Year acquired", name: "acquired", widget: "number", required: false, value_type: "int" }

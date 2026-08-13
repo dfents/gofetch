@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collection — GoFetch</title>
+<meta name="description" content="Browse the publicly listed portion of the GoFetch domain collection. Filter by extension, category and acquisition type.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 fill=%22%2315130E%22/><g fill=%22none%22 stroke=%22%23E8A33D%22 stroke-width=%221.6%22><line x1=%2212%22 y1=%225%22 x2=%225%22 y2=%2213%22/><line x1=%2212%22 y1=%225%22 x2=%2219%22 y2=%2213%22/><line x1=%225%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/><line x1=%2219%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/></g><circle cx=%2212%22 cy=%225%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%225%22 cy=%2213%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%2219%22 cy=%2213%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%2212%22 cy=%2220%22 r=%221.9%22 fill=%22%23E8A33D%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <span class="mark-slot" data-size="22"></span>
+      <span class="brand-word">GoFetch</span>
+    </a>
+    <nav class="main-nav">
+      <a href="/">Home</a>
+      <a href="/collection.html" class="current">Collection</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <a class="nav-cta" href="#" data-enquire="">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-eyebrow">Inventory</div>
+      <h1 class="page-title">The collection</h1>
+      <p class="page-lede">A working set of what's publicly listed. A larger portion of the portfolio is held privately — if you don't see what you're after, <a href="#" data-enquire="" data-mode="finder" style="text-decoration:underline;">ask us directly</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="collection-layout">
+        <aside class="filters">
+          <div id="filter-mode" class="filter-group"></div>
+          <div id="filter-ext" class="filter-group"></div>
+          <div id="filter-cat" class="filter-group"></div>
+        </aside>
+        <div>
+          <div id="collection-count" class="collection-count"></div>
+          <div id="listing" class="listing"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>© <span id="year"></span> GoFetch — a Fenton / Butcher partnership</span>
+    <span><a href="/about.html">About</a> &nbsp;·&nbsp; <a href="/collection.html">Collection</a> &nbsp;·&nbsp; <a href="#" data-enquire="">Contact</a></span>
+  </div>
+</footer>
+
+<div id="enquiry-overlay" class="modal-overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="enquiry-title">
+    <div class="modal-head">
+      <h3 id="enquiry-title" class="modal-title">Make an enquiry</h3>
+      <button id="enquiry-close" class="modal-close" aria-label="Close">&times;</button>
+    </div>
+    <p class="modal-sub">We reply directly — no account, no mailing list.</p>
+    <form id="enquiry-form" name="enquiry" method="POST" data-netlify="true" netlify-honeypot="enq-hp">
+      <input type="hidden" name="form-name" value="enquiry">
+      <input type="text" id="enq-hp" name="enq-hp" class="hp-field" tabindex="-1" autocomplete="off">
+      <div class="field"><label for="enq-name">Name</label><input id="enq-name" name="name" type="text" required></div>
+      <div class="field"><label for="enq-email">Email</label><input id="enq-email" name="email" type="email" required></div>
+      <div class="field"><label for="enq-company">Company</label><input id="enq-company" name="company" type="text"></div>
+      <div class="field"><label for="enq-domain">Domain</label><input id="enq-domain" name="domain" type="text"></div>
+      <div class="field"><label for="enq-budget">Offer / budget</label><input id="enq-budget" name="budget" type="text"></div>
+      <div class="field"><label for="enq-message">Message</label><textarea id="enq-message" name="message"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Send enquiry</button>
+      <div id="enquiry-status" class="form-status" role="status"></div>
+    </form>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
