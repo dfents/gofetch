@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: "YOUR-GITHUB-USERNAME/gofetch"   # <-- replace with your actual owner/repo, e.g. "dfenton/gofetch"
+  repo: "dfents/gofetch"   # <-- replace with your actual owner/repo, e.g. "dfenton/gofetch"
   branch: main
   base_url: https://api.netlify.com
   auth_endpoint: auth
