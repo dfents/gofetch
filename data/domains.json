@@ -1,409 +1,87 @@
 {
   "domains": [
     {
-      "logo": "",
-      "logoVideo": "/images/logos/thylacine.mp4",
       "domain": "thylacine.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "private",
+      "logo": "",
+      "featured": true,
+      "acquired": 2025,
       "tagline": "Extinct within living memory. Unmistakable in silhouette.",
-      "description": "Thylacine \u2014 the Tasmanian tiger, gone since 1936 but instantly recognisable. A precise, specific name for AI work in conservation, de-extinction science, rare-signal detection, or anything trading on scarcity rather than a generic 'AI' suffix.",
+      "logoVideo": "/images/logos/thylacine.mp4",
+      "hasLander": true,
+      "description": "Thylacine — the Tasmanian tiger, gone since 1936 but instantly recognisable. A precise, specific name for AI work in conservation, de-extinction science, rare-signal detection, or anything trading on scarcity rather than a generic 'AI' suffix.",
       "category": [
         "AI",
         "Science",
         "Brandable"
       ],
-      "pricingMode": "private",
-      "price": null,
-      "featured": true,
-      "hasLander": true,
-      "acquired": 2025
+      "extension": "ai"
     },
     {
-      "logo": "",
       "domain": "pagan.com",
-      "extension": "com",
+      "price": null,
+      "pricingMode": "private",
+      "logo": "",
+      "featured": true,
+      "acquired": 2019,
       "tagline": "Ancient word. Open field.",
+      "hasLander": true,
       "description": "Pagan is an ancient, culturally resonant word with reach across technology, culture, media, nature and identity. Short, spoken easily, understood everywhere.",
       "category": [
         "Culture",
         "Technology",
         "Identity"
       ],
-      "pricingMode": "private",
-      "price": null,
-      "featured": true,
-      "hasLander": true,
-      "acquired": 2019
+      "extension": "com"
     },
     {
-      "logo": "",
-      "domain": "signalhouse.com",
-      "extension": "com",
-      "tagline": "For companies built on clarity.",
-      "description": "A composed, two-word .com suited to research, media, analytics or advisory brands that trade in clear signal over noise.",
-      "category": [
-        "Media",
-        "Technology",
-        "Brandable"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": true,
-      "hasLander": true,
-      "acquired": 2021
-    },
-    {
-      "logo": "",
-      "domain": "quietcapital.com",
-      "extension": "com",
-      "tagline": "Understated. Load-bearing.",
-      "description": "A restrained name for a fund, family office or advisory practice that prefers its work to speak rather than its marketing.",
-      "category": [
-        "Finance",
-        "Brandable"
-      ],
-      "pricingMode": "buy_now",
-      "price": 18500,
-      "featured": true,
-      "hasLander": true,
-      "acquired": 2020
-    },
-    {
-      "logo": "",
-      "domain": "northfield.ai",
-      "extension": "ai",
-      "tagline": "A place-name for an AI company.",
-      "description": "Grounded and geographic rather than synthetic-sounding. Works well for applied AI, agriculture-tech or infrastructure companies wanting to avoid the generic 'ai-noun' pattern.",
-      "category": [
-        "Technology",
-        "AI",
-        "Brandable"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": true,
-      "hasLander": true,
-      "acquired": 2023
-    },
-    {
-      "logo": "",
-      "domain": "fetchindex.com",
-      "extension": "com",
-      "tagline": "A name about finding names.",
-      "description": "Descriptive and self-referential \u2014 well suited to a search, retrieval, cataloguing or discovery product.",
-      "category": [
-        "Technology",
-        "Search"
-      ],
-      "pricingMode": "buy_now",
-      "price": 9200,
-      "featured": true,
-      "hasLander": true,
-      "acquired": 2022
-    },
-    {
-      "logo": "",
-      "domain": "lowertide.com",
-      "extension": "com",
-      "tagline": "Coastal, calm, quietly evocative.",
-      "description": "An atmospheric two-word .com with natural imagery. Suits hospitality, wellness, editorial or lifestyle brands.",
-      "category": [
-        "Lifestyle",
-        "Brandable"
-      ],
-      "pricingMode": "private",
-      "price": null,
-      "featured": false,
-      "hasLander": true,
-      "acquired": 2018
-    },
-    {
-      "logo": "",
-      "domain": "vaultline.com",
-      "extension": "com",
-      "tagline": "Security without the clich\u00e9.",
-      "description": "Avoids the well-worn 'shield/lock/secure' vocabulary while still reading clearly as security, storage or infrastructure.",
-      "category": [
-        "Technology",
-        "Security"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true,
-      "acquired": 2021
-    },
-    {
-      "logo": "",
       "domain": "farblue.com",
-      "extension": "com",
-      "tagline": "Distance and clarity, in two syllables.",
-      "description": "Open, warm, slightly wistful \u2014 travel, wellness, and consumer health brands wear this comfortably.",
-      "category": [
-        "Wellness",
-        "Brandable"
-      ],
-      "pricingMode": "buy_now",
       "price": 14000,
-      "featured": false,
-      "hasLander": true,
-      "acquired": 2024
-    },
-    {
+      "pricingMode": "buy_now",
       "logo": "",
-      "domain": "ratherwell.com",
-      "extension": "com",
-      "tagline": "A wellness name with a wink.",
-      "description": "Plays on 'rather well' and 'rather, well \u2014', giving a wellness or longevity brand something to build tone around.",
+      "featured": false,
+      "acquired": 2024,
+      "tagline": "Distance and clarity, in two syllables.",
+      "hasLander": true,
+      "description": "Open, warm, slightly wistful — travel, wellness, and consumer health brands wear this comfortably.",
       "category": [
         "Wellness",
         "Brandable"
       ],
-      "pricingMode": "buy_now",
-      "price": 12500,
-      "featured": false,
-      "hasLander": true,
-      "acquired": 2024
+      "extension": "com"
     },
     {
+      "domain": "ratherwell.com",
+      "price": 12500,
+      "pricingMode": "buy_now",
       "logo": "",
+      "featured": false,
+      "acquired": 2024,
+      "tagline": "A wellness name with a wink.",
+      "hasLander": true,
+      "description": "Plays on 'rather well' and 'rather, well —', giving a wellness or longevity brand something to build tone around.",
+      "category": [
+        "Wellness",
+        "Brandable"
+      ],
+      "extension": "com"
+    },
+    {
       "domain": "scapego.at",
-      "extension": "at",
+      "price": null,
+      "pricingMode": "make_offer",
+      "logo": "",
+      "featured": false,
+      "acquired": 2025,
       "tagline": "A domain hack, deliberately.",
+      "hasLander": true,
       "description": "The .at ccTLD completes the word cleanly. Distinctive, memorable, and unmistakably a considered pick rather than a fallback extension.",
       "category": [
         "Brandable",
         "Novelty"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true,
-      "acquired": 2025
-    },
-    {
-      "logo": "",
-      "domain": "corebearing.com",
-      "extension": "com",
-      "tagline": "Structural, industrial, dependable.",
-      "description": "Suits engineering, manufacturing, logistics or infrastructure companies wanting a name that sounds load-bearing in the literal sense.",
-      "category": [
-        "Industrial",
-        "Brandable"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2020
-    },
-    {
-      "logo": "",
-      "domain": "dryseason.com",
-      "extension": "com",
-      "tagline": "Climate as brand language.",
-      "description": "A seasonal, agricultural, or climate-tech name with a natural editorial register.",
-      "category": [
-        "Climate",
-        "Brandable"
-      ],
-      "pricingMode": "private",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2019
-    },
-    {
-      "logo": "",
-      "domain": "openledger.co",
-      "extension": "co",
-      "tagline": "Transparent by construction.",
-      "description": "Finance, accounting, or governance products with a transparency angle.",
-      "category": [
-        "Finance",
-        "Technology"
-      ],
-      "pricingMode": "buy_now",
-      "price": 6800,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2022
-    },
-    {
-      "logo": "",
-      "domain": "graincity.com",
-      "extension": "com",
-      "tagline": "Agriculture, unpretentiously.",
-      "description": "A grounded, place-like name for agtech, commodities, or food-supply brands.",
-      "category": [
-        "Agriculture",
-        "Brandable"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2021
-    },
-    {
-      "logo": "",
-      "domain": "brightlung.com",
-      "extension": "com",
-      "tagline": "Health, breathed easily.",
-      "description": "Respiratory health, fitness, or air-quality products with a light touch.",
-      "category": [
-        "Health",
-        "Brandable"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2023
-    },
-    {
-      "logo": "",
-      "domain": "paperwestern.com",
-      "extension": "com",
-      "tagline": "Editorial and a little cinematic.",
-      "description": "Publishing, film, or design studios wanting a name with narrative texture.",
-      "category": [
-        "Media",
-        "Creative"
-      ],
-      "pricingMode": "private",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2018
-    },
-    {
-      "logo": "",
-      "domain": "haltwell.com",
-      "extension": "com",
-      "tagline": "Stop, deliberately.",
-      "description": "Recovery, mental health, or slow-living brands built around intentional pause.",
-      "category": [
-        "Wellness",
-        "Brandable"
-      ],
-      "pricingMode": "buy_now",
-      "price": 8400,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2024
-    },
-    {
-      "logo": "",
-      "domain": "civicwave.com",
-      "extension": "com",
-      "tagline": "Public sector, in motion.",
-      "description": "Govtech, civic engagement, or public infrastructure products.",
-      "category": [
-        "Civic",
-        "Technology"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2020
-    },
-    {
-      "logo": "",
-      "domain": "modelfarm.ai",
-      "extension": "ai",
-      "tagline": "Where models are grown, not just trained.",
-      "description": "An agricultural metaphor for an AI infrastructure, tooling, or MLOps company.",
-      "category": [
-        "AI",
-        "Technology"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2025
-    },
-    {
-      "logo": "",
-      "domain": "coldbrief.com",
-      "extension": "com",
-      "tagline": "Direct, unembellished.",
-      "description": "Legal, consulting, or intelligence products that trade on directness.",
-      "category": [
-        "Professional",
-        "Brandable"
-      ],
-      "pricingMode": "private",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2019
-    },
-    {
-      "logo": "",
-      "domain": "innerport.com",
-      "extension": "com",
-      "tagline": "A harbour, internally.",
-      "description": "Mental health, therapy, or introspective product brands.",
-      "category": [
-        "Wellness",
-        "Brandable"
-      ],
-      "pricingMode": "buy_now",
-      "price": 7200,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2022
-    },
-    {
-      "logo": "",
-      "domain": "trueledger.co",
-      "extension": "co",
-      "tagline": "Accounting, without the jargon.",
-      "description": "Fintech and accounting products wanting a plain, trustworthy register.",
-      "category": [
-        "Finance",
-        "Technology"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2021
-    },
-    {
-      "logo": "",
-      "domain": "fieldnote.io",
-      "extension": "io",
-      "tagline": "Observational, technical, quiet.",
-      "description": "Research tools, dev tools, or field-work software products.",
-      "category": [
-        "Technology",
-        "Research"
-      ],
-      "pricingMode": "buy_now",
-      "price": 5400,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2023
-    },
-    {
-      "logo": "",
-      "domain": "wardline.com",
-      "extension": "com",
-      "tagline": "Health infrastructure, precisely named.",
-      "description": "Clinical software, hospital operations, or healthcare logistics companies.",
-      "category": [
-        "Health",
-        "Technology"
-      ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": false,
-      "acquired": 2020
+      "extension": "at"
     }
   ]
 }
