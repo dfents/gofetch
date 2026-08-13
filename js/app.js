@@ -23,10 +23,11 @@
     return "Not disclosed";
   }
 
-  function logoMedia(d, cls) {
+  function logoMedia(d, cls, opts) {
+    var loop = !(opts && opts.noLoop);
     if (d.logoVideo) {
       return (
-        '<video class="' + cls + '" autoplay muted loop playsinline aria-label="' + d.domain + ' logo">' +
+        '<video class="' + cls + '" autoplay muted' + (loop ? " loop" : "") + ' playsinline aria-label="' + d.domain + ' logo">' +
         '<source src="' + d.logoVideo + '" type="video/mp4"></video>'
       );
     }
@@ -83,6 +84,10 @@
   }
 
   function renderLanderInto(container, record) {
+    if (record.minimal) {
+      renderMinimalLanderInto(container, record);
+      return;
+    }
     var mode = record.pricingMode;
     var badge =
       mode === "buy_now" ? "Available · Buy now · " + fmtPrice(record) :
@@ -120,6 +125,44 @@
         "</div>" +
         '<div class="lander-fab" data-fab>' +
           '<button class="lander-fab-pill mono" type="button" data-fab-toggle>Make an enquiry</button>' +
+          '<div class="lander-fab-panel" data-fab-panel>' +
+            '<div class="lander-fab-head">' +
+              '<span class="mono">Enquire about ' + record.domain + "</span>" +
+              '<button class="modal-close" type="button" data-fab-close aria-label="Close">&times;</button>' +
+            "</div>" +
+            '<form data-fab-form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="fab-hp">' +
+              '<input type="hidden" name="form-name" value="enquiry">' +
+              '<input type="hidden" name="domain" value="' + record.domain + '">' +
+              '<input type="text" name="fab-hp" class="hp-field" tabindex="-1" autocomplete="off">' +
+              '<div class="field"><input type="text" name="name" placeholder="Name" required></div>' +
+              '<div class="field"><input type="email" name="email" placeholder="Email" required></div>' +
+              '<div class="field"><input type="text" name="budget" placeholder="Offer / budget (optional)"></div>' +
+              '<div class="field"><textarea name="message" placeholder="Message (optional)"></textarea></div>' +
+              '<button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Send enquiry</button>' +
+              '<div class="form-status" data-fab-status role="status"></div>' +
+            "</form>" +
+          "</div>" +
+        "</div>" +
+      "</div>";
+
+    initLanderFab(container);
+  }
+
+  function minimalPillLabel(record) {
+    if (record.pricingMode === "buy_now") return "For sale · " + fmtPrice(record);
+    if (record.pricingMode === "make_offer") return "For sale · Make an offer";
+    return "For sale · Enquire";
+  }
+
+  function renderMinimalLanderInto(container, record) {
+    var media = logoMedia(record, "lander-minimal-media", { noLoop: true });
+
+    container.innerHTML =
+      '<div class="lander-shell lander-shell--minimal">' +
+        '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
+        '<div class="lander-minimal-center">' + media + "</div>" +
+        '<div class="lander-fab" data-fab>' +
+          '<button class="lander-fab-pill mono" type="button" data-fab-toggle>' + minimalPillLabel(record) + "</button>" +
           '<div class="lander-fab-panel" data-fab-panel>' +
             '<div class="lander-fab-head">' +
               '<span class="mono">Enquire about ' + record.domain + "</span>" +

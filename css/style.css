@@ -698,6 +698,36 @@ footer a:hover{ color: var(--accent); }
   .lander-fab-pill{ align-self: flex-end; }
 }
 
+/* Minimal lander variant — single centered image/video, white page */
+.lander-shell--minimal{
+  --bg: #FFFFFF;
+  --bg-raised: #FAFAF8;
+  --bg-raised-2: #F2F1EC;
+  --fg: #17140D;
+  --fg-dim: #6B6656;
+  --fg-faint: #ABA48F;
+  --line: #E6E3DA;
+  --line-bright: #D9D5C8;
+  background: var(--bg);
+  color: var(--fg);
+  width: 100%;
+}
+.lander-minimal-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 40px;
+}
+.lander-minimal-media{
+  width: min(60vw, 620px);
+  max-width: 620px;
+  height: auto;
+}
+@media (max-width: 560px){
+  .lander-minimal-media{ width: 84vw; }
+}
+
 
 /* ============================================================
    Enquiry modal

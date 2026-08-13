@@ -5,6 +5,7 @@
       "price": null,
       "pricingMode": "private",
       "logo": "",
+      "minimal": true,
       "featured": true,
       "acquired": 2025,
       "tagline": "Extinct within living memory. Unmistakable in silhouette.",
