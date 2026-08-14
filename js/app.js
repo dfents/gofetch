@@ -557,6 +557,8 @@
     initCollection();
     initStandaloneLander();
     initEnquiryModal();
+
+    document.body.classList.remove("pre-boot");
   }
 
   document.addEventListener("DOMContentLoaded", function () {

@@ -38,6 +38,15 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
+/* Hide the default homepage until JS has decided whether this
+   hostname should show the homepage or an owned-domain lander —
+   avoids a flash of the wrong brand on custom domains. */
+body.pre-boot .site-header,
+body.pre-boot #home-app,
+body.pre-boot footer{
+  visibility: hidden;
+}
+
 /* subtle CRT vignette + scanline texture, very low opacity */
 body::before{
   content: "";
