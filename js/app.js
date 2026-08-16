@@ -8,6 +8,39 @@
 
   var DOMAINS = [];
   var GOFETCH_HOSTS = ["gofetch.com", "www.gofetch.com", "localhost", "127.0.0.1"];
+  var ATOM_PAY_TOKEN = "4f3f3a48bdbed5cb";
+  var atomPayScriptLoaded = false;
+
+  function loadAtomPayScript() {
+    // pay-with-atom.js scans the DOM for ".pay-with-atom" buttons as soon as
+    // it loads (via jQuery's ready handler), so it must be injected only
+    // after our button already exists — GoFetch's landers render async from
+    // a data/domains.json fetch, so a static <script> in <head> would run
+    // before the button exists and silently find nothing.
+    if (atomPayScriptLoaded) return;
+    atomPayScriptLoaded = true;
+    var s = document.createElement("script");
+    s.src = "https://www.atom.com/scripts/pay-with-atom.js";
+    document.body.appendChild(s);
+  }
+
+  function atomPayButtonHTML(record) {
+    if (record.pricingMode !== "buy_now" || !record.price) return "";
+    return (
+      '<div class="lander-atompay">' +
+        '<button class="pay-with-atom" ' +
+          'data-domain-name="' + record.domain + '" ' +
+          'data-domain-price="' + record.price + '" ' +
+          'data-token="' + ATOM_PAY_TOKEN + '" ' +
+          'data-installments="" ' +
+          'data-down-payment="" ' +
+          'data-host-name="https://www.atom.com">' +
+          "<span>Buy With</span>" +
+          '<img src="https://www.atom.com/assets/pay.png" alt="Atom Logo">' +
+        "</button>" +
+      "</div>"
+    );
+  }
 
   var STATUS_LABEL = {
     buy_now: "Buy now",
@@ -108,16 +141,19 @@
         "</div>"
       : "";
 
+    var descHtml = record.description ? '<p class="lander-desc">' + record.description + "</p>" : "";
+    var categoryHtml = (record.category && record.category.length) ? record.category.join(" / ") + '<span class="dot">·</span>' : "";
+
     container.innerHTML =
       '<div class="lander-shell">' +
         '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
         '<div class="container lander-center">' +
           '<div class="lander-hero">' + hero + "</div>" +
           '<div class="lander-badge mono">' + badge + "</div>" +
-          '<p class="lander-desc">' + record.description + "</p>" +
+          atomPayButtonHTML(record) +
+          descHtml +
           '<div class="lander-meta mono">' +
-            '<span>' + record.category.join(" / ") + "</span>" +
-            '<span class="dot">·</span>' +
+            '<span>' + categoryHtml + "</span>" +
             '<span>.' + record.extension.toUpperCase() + "</span>" +
           "</div>" +
           othersHtml +
@@ -144,6 +180,8 @@
           "</div>" +
         "</div>" +
       "</div>";
+
+    if (mode === "buy_now" && record.price) loadAtomPayScript();
 
     initLanderFab(container);
   }
