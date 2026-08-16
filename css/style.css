@@ -582,8 +582,15 @@ footer a:hover{ color: var(--accent); }
   margin-bottom: 18px;
 }
 .lander-atompay{
+  display: flex;
+  justify-content: center;
   margin-bottom: 24px;
 }
+.btn-atompay{
+  background: linear-gradient(90deg, #4F46E5, #7C3AED);
+  color: #fff;
+}
+.btn-atompay:hover{ opacity: 0.92; }
 .lander-meta{
   font-size: 11.5px;
   letter-spacing: 0.05em;

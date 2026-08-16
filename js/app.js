@@ -27,17 +27,31 @@
   function atomPayButtonHTML(record) {
     if (record.pricingMode !== "buy_now" || !record.price) return "";
     return (
+      '<button class="pay-with-atom" ' +
+        'data-domain-name="' + record.domain + '" ' +
+        'data-domain-price="' + record.price + '" ' +
+        'data-token="' + ATOM_PAY_TOKEN + '" ' +
+        'data-installments="" ' +
+        'data-down-payment="" ' +
+        'data-host-name="https://www.atom.com">' +
+        "<span>Buy With</span>" +
+        '<img src="https://www.atom.com/assets/pay.png" alt="Atom Logo">' +
+      "</button>"
+    );
+  }
+
+  function buyNowLinkHTML(record) {
+    // Opens a dedicated /pay.html tab that hosts the real AtomPay button,
+    // rather than embedding Atom's script on the lander itself — their
+    // script navigates the current tab on click (no new-tab option), and
+    // scans the DOM for buttons the instant it loads, which races badly
+    // against GoFetch's async, data-driven rendering. A separate launcher
+    // page sidesteps both problems and keeps the lander's own buyer off
+    // gofetch.com/gofetchdomains.com until they deliberately continue.
+    if (record.pricingMode !== "buy_now" || !record.price) return "";
+    return (
       '<div class="lander-atompay">' +
-        '<button class="pay-with-atom" ' +
-          'data-domain-name="' + record.domain + '" ' +
-          'data-domain-price="' + record.price + '" ' +
-          'data-token="' + ATOM_PAY_TOKEN + '" ' +
-          'data-installments="" ' +
-          'data-down-payment="" ' +
-          'data-host-name="https://www.atom.com">' +
-          "<span>Buy With</span>" +
-          '<img src="https://www.atom.com/assets/pay.png" alt="Atom Logo">' +
-        "</button>" +
+        '<a class="btn btn-atompay" href="/pay.html?d=' + encodeURIComponent(record.domain) + '" target="_blank" rel="noopener">Buy with Atom</a>' +
       "</div>"
     );
   }
@@ -150,7 +164,7 @@
         '<div class="container lander-center">' +
           '<div class="lander-hero">' + hero + "</div>" +
           '<div class="lander-badge mono">' + badge + "</div>" +
-          atomPayButtonHTML(record) +
+          buyNowLinkHTML(record) +
           descHtml +
           '<div class="lander-meta mono">' +
             '<span>' + categoryHtml + "</span>" +
@@ -180,8 +194,6 @@
           "</div>" +
         "</div>" +
       "</div>";
-
-    if (mode === "buy_now" && record.price) loadAtomPayScript();
 
     initLanderFab(container);
   }
@@ -486,6 +498,42 @@
   }
 
   /* ----------------------------------------------------------
+     Buy-now checkout launcher (pay.html?d=domain.com) — hosts the
+     real AtomPay button in its own tab. See buyNowLinkHTML() for why.
+     ---------------------------------------------------------- */
+  function initPayPage() {
+    var root = document.getElementById("pay-root");
+    if (!root) return;
+    var params = new URLSearchParams(window.location.search);
+    var record = byDomain(params.get("d") || "");
+
+    if (!record || record.pricingMode !== "buy_now" || !record.price) {
+      root.innerHTML =
+        '<div class="lander-shell">' +
+          '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
+          '<div class="container lander-center">' +
+            '<h1 class="lander-domain mono">Not available to buy directly</h1>' +
+            '<p class="lander-desc">This listing isn’t set up for instant purchase. <a href="https://gofetch.com/">Return to GoFetch</a> to send an enquiry instead.</p>' +
+          "</div>" +
+        "</div>";
+      return;
+    }
+
+    document.title = "Buy " + record.domain + " — GoFetch";
+    root.innerHTML =
+      '<div class="lander-shell">' +
+        '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
+        '<div class="container lander-center">' +
+          '<h1 class="lander-domain mono">' + record.domain + "</h1>" +
+          '<div class="lander-badge mono">' + fmtPrice(record) + "</div>" +
+          '<div class="lander-atompay">' + atomPayButtonHTML(record) + "</div>" +
+          '<a class="lander-other-more mono" href="javascript:window.close()">Close this tab</a>' +
+        "</div>" +
+      "</div>";
+    loadAtomPayScript();
+  }
+
+  /* ----------------------------------------------------------
      Enquiry modal + Netlify-compatible form submission
      ---------------------------------------------------------- */
   function initEnquiryModal() {
@@ -594,6 +642,7 @@
 
     initCollection();
     initStandaloneLander();
+    initPayPage();
     initEnquiryModal();
 
     document.body.classList.remove("pre-boot");
