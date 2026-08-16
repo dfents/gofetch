@@ -1,11 +1,11 @@
 {
   "domains": [
     {
+      "minimal": true,
       "domain": "thylacine.ai",
       "price": null,
       "pricingMode": "private",
       "logo": "",
-      "minimal": true,
       "featured": true,
       "acquired": 2025,
       "tagline": "Extinct within living memory. Unmistakable in silhouette.",
@@ -83,6 +83,15 @@
         "Novelty"
       ],
       "extension": "at"
+    },
+    {
+      "featured": false,
+      "hasLander": true,
+      "domain": "0humans.app",
+      "extension": "app",
+      "pricingMode": "buy_now",
+      "price": 2028,
+      "category": []
     }
   ]
 }
