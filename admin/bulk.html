@@ -32,10 +32,10 @@
 
   <div class="format">
     <strong>Format:</strong> <code>domain, price, pricingMode, category|category, saleType</code><br>
-    Only the domain is required. <code>pricingMode</code> is <code>buy_now</code>, <code>make_offer</code>, or <code>private</code> (defaults to buy_now if a price is set, otherwise make_offer). <code>saleType</code> is optional — type <code>liquidation</code> to show it in the Liquidation &amp; current deals section.<br><br>
+    The fields are always in this order, even when you skip one — leave a skipped field blank between its commas rather than dropping it, or the next field shifts into its place. Only the domain is required. <code>pricingMode</code> is <code>buy_now</code>, <code>make_offer</code>, or <code>private</code> (defaults to buy_now if a price is set, otherwise make_offer). <code>saleType</code> is optional — type <code>liquidation</code> to show it in the Liquidation &amp; current deals section.<br><br>
     Example:<br>
     <code>niceword.com, 99, buy_now, Brandable, liquidation</code><br>
-    <code>otherword.io, , make_offer, AI</code><br>
+    <code>otherword.io, , make_offer, AI</code> — note the blank spot for price, so "make_offer" doesn't get read as the price and "AI" doesn't get read as the pricing mode<br>
     <code>thirdword.net</code>
   </div>
 

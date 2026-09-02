@@ -127,6 +127,9 @@ exports.handler = async function (event) {
   };
 };
 
+const VALID_PRICING_MODES = ["buy_now", "make_offer", "private"];
+const VALID_SALE_TYPES = ["liquidation"];
+
 function parseRow(line) {
   const parts = line.split(",").map((p) => p.trim());
   const [domainRaw, priceRaw, pricingModeRaw, categoryRaw, saleTypeRaw] = parts;
@@ -135,8 +138,24 @@ function parseRow(line) {
   const extension = domain.split(".").slice(1).join(".");
   const price = priceRaw ? parseInt(priceRaw.replace(/[^0-9]/g, ""), 10) : null;
   const pricingMode = pricingModeRaw || (price ? "buy_now" : "make_offer");
+
+  // Catches the easy mistake of skipping the price field without leaving its
+  // comma in place ("domain, make_offer, AI" instead of "domain, , make_offer,
+  // AI") -- without this check, "make_offer" silently becomes the price and
+  // "AI" silently becomes the pricingMode, which the site then can't label.
+  if (!VALID_PRICING_MODES.includes(pricingMode)) {
+    throw new Error(
+      'row "' + line + '": "' + pricingMode + '" isn\'t a valid pricing mode ' +
+      '(use buy_now, make_offer, or private). If you meant to skip the price ' +
+      'field, leave it blank between the commas, e.g. "' + domainRaw + ', , ' + pricingMode + ', <category>"'
+    );
+  }
+
   const category = categoryRaw ? categoryRaw.split("|").map((c) => c.trim()).filter(Boolean) : ["Brandable"];
   const saleType = saleTypeRaw ? saleTypeRaw.trim() : undefined;
+  if (saleType && !VALID_SALE_TYPES.includes(saleType)) {
+    throw new Error('row "' + line + '": "' + saleType + '" isn\'t a recognized sale type (only "liquidation" is supported -- leave it blank otherwise)');
+  }
 
   const record = {
     domain,
