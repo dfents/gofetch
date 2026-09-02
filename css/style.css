@@ -299,6 +299,8 @@ button{ font-family: inherit; }
 .btn-primary:hover{ background: #33353a; }
 .btn-ghost{ border-color: var(--line-bright); color: var(--fg); background: none; }
 .btn-ghost:hover{ border-color: var(--fg); }
+.btn-telegram{ border-color: var(--line-bright); color: var(--fg); background: none; }
+.btn-telegram:hover{ border-color: #229ED9; color: #229ED9; }
 
 /* ============================================================
    Badges (acquisition / sale-type)
@@ -699,7 +701,7 @@ button.listing-status.private:hover{ color: var(--blue); }
 
 .lander-center{
   max-width: 620px;
-  padding: 120px 28px 140px;
+  padding: 120px 28px 90px;
   text-align: center;
 }
 .lander-hero{
@@ -782,7 +784,8 @@ button.listing-status.private:hover{ color: var(--blue); }
 /* Cross-sell strip */
 .lander-other{
   border-top: 1px solid var(--line);
-  padding-top: 28px;
+  margin-top: 20px;
+  padding-top: 32px;
   margin-bottom: 22px;
 }
 .lander-other-label{
@@ -827,76 +830,14 @@ button.listing-status.private:hover{ color: var(--blue); }
   margin: 0 auto;
 }
 
-/* Floating enquiry widget */
-.lander-fab{
-  position: fixed;
-  right: 22px;
-  bottom: 22px;
-  z-index: 30;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-}
-.lander-fab-pill{
-  background: var(--fg);
-  color: #fff;
-  border: none;
-  border-radius: 999px;
-  padding: 13px 22px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 12.5px;
-  cursor: pointer;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
-  transition: transform 0.15s ease, background 0.15s ease;
-}
-.lander-fab-pill:hover{ background: #33353a; transform: translateY(-1px); }
-.lander-fab-pill.hidden{ display: none; }
-
-.lander-fab-panel{
-  display: none;
-  width: min(320px, calc(100vw - 44px));
-  background: var(--bg);
-  border: 1px solid var(--line-bright);
-  border-radius: var(--radius);
-  padding: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.16);
-}
-.lander-fab-panel.open{ display: block; animation: fabIn 0.18s ease; }
-@keyframes fabIn{ from{ opacity: 0; transform: translateY(6px); } to{ opacity: 1; transform: translateY(0); } }
-.lander-fab-head{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-  font-size: 13px;
-  color: var(--fg);
-}
-.lander-fab-panel .field{ margin-bottom: 10px; }
-.lander-fab-panel input, .lander-fab-panel textarea{
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--line-bright);
-  border-radius: var(--radius);
-  color: var(--fg);
-  font-family: var(--font-body);
-  font-size: 13.5px;
-  padding: 10px 11px;
-}
-.lander-fab-panel textarea{ min-height: 64px; resize: vertical; }
-.lander-fab-panel input:focus, .lander-fab-panel textarea:focus{ outline: none; border-color: var(--blue); }
-
 @media (max-width: 560px){
   .lander-corner{ top: 16px; left: 16px; }
-  .lander-center{ padding: 96px 20px 130px; }
-  .lander-fab{ right: 16px; bottom: 16px; left: 16px; align-items: stretch; }
-  .lander-fab-panel{ width: 100%; }
-  .lander-fab-pill{ align-self: flex-end; }
+  .lander-center{ padding: 96px 20px 90px; }
 }
 
 /* Minimal lander variant — single centered image/video, white page */
 .lander-shell--minimal{
+  flex-direction: column;
   background: var(--bg);
   color: var(--fg);
   width: 100%;
@@ -913,6 +854,14 @@ button.listing-status.private:hover{ color: var(--blue); }
   max-width: 620px;
   height: auto;
 }
+.lander-minimal-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 28px 56px;
+  text-align: center;
+}
+.lander-minimal-info .lander-badge{ margin-bottom: 20px; }
 @media (max-width: 560px){
   .lander-minimal-media{ width: 84vw; }
 }

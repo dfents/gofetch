@@ -12,6 +12,8 @@
   var GOFETCH_HOSTS = ["gofetch.com", "www.gofetch.com", "localhost", "127.0.0.1"];
   var ATOM_PAY_TOKEN = "4f3f3a48bdbed5cb";
   var atomPayScriptLoaded = false;
+  /* Change this one value to update every Telegram button on the site at once. */
+  var TELEGRAM_HANDLE = "dfents";
 
   function loadAtomPayScript() {
     // pay-with-atom.js scans the DOM for ".pay-with-atom" buttons as soon as
@@ -40,6 +42,30 @@
           "<span>Buy With</span>" +
           '<img src="https://www.atom.com/assets/pay.png" alt="Atom Logo">' +
         "</button>" +
+      "</div>"
+    );
+  }
+
+  function telegramButtonHTML() {
+    return (
+      '<a class="btn btn-telegram" href="https://t.me/' + TELEGRAM_HANDLE + '" target="_blank" rel="noopener">' +
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>' +
+        "<span>Telegram</span>" +
+      "</a>"
+    );
+  }
+
+  function statusLine(record) {
+    if (record.pricingMode === "buy_now") return "For sale · Buy now · " + fmtPrice(record);
+    if (record.pricingMode === "make_offer") return "For sale · Make an offer";
+    return "For sale · Enquire";
+  }
+
+  function landerActionsHTML(record) {
+    return (
+      '<div class="lander-actions">' +
+        '<button type="button" class="btn btn-primary" data-enquire="' + escapeHtml(record.domain) + '">Make an enquiry</button>' +
+        telegramButtonHTML() +
       "</div>"
     );
   }
@@ -124,10 +150,6 @@
       return;
     }
     var mode = record.pricingMode;
-    var badge =
-      mode === "buy_now" ? "Available · Buy now · " + fmtPrice(record) :
-      mode === "make_offer" ? "Available · Offers invited" :
-      "Privately held";
 
     var media = logoMedia(record, "lander-media");
     var hero = media
@@ -151,8 +173,9 @@
         '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
         '<div class="container lander-center">' +
           '<div class="lander-hero">' + hero + "</div>" +
-          '<div class="lander-badge mono">' + badge + "</div>" +
+          '<div class="lander-badge mono">' + statusLine(record) + "</div>" +
           atomPayButtonHTML(record) +
+          landerActionsHTML(record) +
           descHtml +
           '<div class="lander-meta mono">' +
             '<span>' + categoryHtml + "</span>" +
@@ -161,37 +184,9 @@
           othersHtml +
           '<p class="lander-bulk">Multiple names, or leasing rather than buying? Bulk and lease terms available — mention it in your enquiry.</p>' +
         "</div>" +
-        '<div class="lander-fab" data-fab>' +
-          '<button class="lander-fab-pill mono" type="button" data-fab-toggle>Make an enquiry</button>' +
-          '<div class="lander-fab-panel" data-fab-panel>' +
-            '<div class="lander-fab-head">' +
-              '<span class="mono">Enquire about ' + record.domain + "</span>" +
-              '<button class="modal-close" type="button" data-fab-close aria-label="Close">&times;</button>' +
-            "</div>" +
-            '<form data-fab-form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="fab-hp">' +
-              '<input type="hidden" name="form-name" value="enquiry">' +
-              '<input type="hidden" name="domain" value="' + record.domain + '">' +
-              '<input type="text" name="fab-hp" class="hp-field" tabindex="-1" autocomplete="off">' +
-              '<div class="field"><input type="text" name="name" placeholder="Name" required></div>' +
-              '<div class="field"><input type="email" name="email" placeholder="Email" required></div>' +
-              '<div class="field"><input type="text" name="budget" placeholder="Offer / budget (optional)"></div>' +
-              '<div class="field"><textarea name="message" placeholder="Message (optional)"></textarea></div>' +
-              '<button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Send enquiry</button>' +
-              '<div class="form-status" data-fab-status role="status"></div>' +
-            "</form>" +
-          "</div>" +
-        "</div>" +
       "</div>";
 
     if (mode === "buy_now" && record.price) loadAtomPayScript();
-
-    initLanderFab(container);
-  }
-
-  function minimalPillLabel(record) {
-    if (record.pricingMode === "buy_now") return "For sale · " + fmtPrice(record);
-    if (record.pricingMode === "make_offer") return "For sale · Make an offer";
-    return "For sale · Enquire";
   }
 
   function renderMinimalLanderInto(container, record) {
@@ -201,91 +196,14 @@
       '<div class="lander-shell lander-shell--minimal">' +
         '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
         '<div class="lander-minimal-center">' + media + "</div>" +
-        '<div class="lander-fab" data-fab>' +
-          '<button class="lander-fab-pill mono" type="button" data-fab-toggle>' + minimalPillLabel(record) + "</button>" +
-          '<div class="lander-fab-panel" data-fab-panel>' +
-            '<div class="lander-fab-head">' +
-              '<span class="mono">Enquire about ' + record.domain + "</span>" +
-              '<button class="modal-close" type="button" data-fab-close aria-label="Close">&times;</button>' +
-            "</div>" +
-            '<form data-fab-form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="fab-hp">' +
-              '<input type="hidden" name="form-name" value="enquiry">' +
-              '<input type="hidden" name="domain" value="' + record.domain + '">' +
-              '<input type="text" name="fab-hp" class="hp-field" tabindex="-1" autocomplete="off">' +
-              '<div class="field"><input type="text" name="name" placeholder="Name" required></div>' +
-              '<div class="field"><input type="email" name="email" placeholder="Email" required></div>' +
-              '<div class="field"><input type="text" name="budget" placeholder="Offer / budget (optional)"></div>' +
-              '<div class="field"><textarea name="message" placeholder="Message (optional)"></textarea></div>' +
-              '<button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Send enquiry</button>' +
-              '<div class="form-status" data-fab-status role="status"></div>' +
-            "</form>" +
-          "</div>" +
+        '<div class="lander-minimal-info">' +
+          '<div class="lander-badge mono">' + statusLine(record) + "</div>" +
+          atomPayButtonHTML(record) +
+          landerActionsHTML(record) +
         "</div>" +
       "</div>";
 
-    initLanderFab(container);
-  }
-
-  function initLanderFab(container) {
-    var fab = container.querySelector("[data-fab]");
-    if (!fab) return;
-    var pill = fab.querySelector("[data-fab-toggle]");
-    var panel = fab.querySelector("[data-fab-panel]");
-    var closeBtn = fab.querySelector("[data-fab-close]");
-    var form = fab.querySelector("[data-fab-form]");
-    var status = fab.querySelector("[data-fab-status]");
-    var openedAt = null;
-
-    function open() {
-      panel.classList.add("open");
-      pill.classList.add("hidden");
-      openedAt = Date.now();
-      var first = form.querySelector('input[name="name"]');
-      if (first) first.focus();
-    }
-    function close() {
-      panel.classList.remove("open");
-      pill.classList.remove("hidden");
-    }
-
-    pill.addEventListener("click", open);
-    closeBtn.addEventListener("click", close);
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && panel.classList.contains("open")) close();
-    });
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var hp = form.querySelector('input[name="fab-hp"]').value;
-      var elapsed = openedAt ? Date.now() - openedAt : 0;
-      if (hp || elapsed < 1200) {
-        status.textContent = "Something went wrong. Please try again.";
-        status.className = "form-status err";
-        return;
-      }
-      var data = new FormData(form);
-      var body = new URLSearchParams();
-      data.forEach(function (v, k) { body.append(k, v); });
-
-      status.textContent = "Sending…";
-      status.className = "form-status";
-
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: body.toString(),
-      })
-        .then(function () {
-          status.textContent = "Enquiry received. We'll respond directly.";
-          status.className = "form-status ok";
-          form.reset();
-          setTimeout(close, 1800);
-        })
-        .catch(function () {
-          status.textContent = "Couldn't send — please email hello@gofetch.com directly.";
-          status.className = "form-status err";
-        });
-    });
+    if (record.pricingMode === "buy_now" && record.price) loadAtomPayScript();
   }
 
   /* ----------------------------------------------------------
