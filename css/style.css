@@ -299,6 +299,8 @@ button{ font-family: inherit; }
 .btn-primary:hover{ background: #33353a; }
 .btn-ghost{ border-color: var(--line-bright); color: var(--fg); background: none; }
 .btn-ghost:hover{ border-color: var(--fg); }
+.btn-telegram{ border-color: var(--line-bright); color: var(--fg); background: none; }
+.btn-telegram:hover{ border-color: #229ED9; color: #229ED9; }
 
 /* ============================================================
    Badges (acquisition / sale-type)
@@ -647,6 +649,8 @@ footer a:hover{ color: var(--fg); }
 }
 .listing-row:hover{ background: var(--bg-raised); }
 .listing-domain{ font-family: var(--font-mono); font-size: 16px; }
+.listing-telegram-tag{ display: inline-flex; color: #229ED9; margin-left: 7px; vertical-align: -2px; }
+.listing-telegram-tag svg{ width: 13px; height: 13px; }
 .listing-cats{ font-family: var(--font-body); font-size: 13px; color: var(--fg-dim); }
 .listing-price{ font-family: var(--font-mono); font-size: 13px; color: var(--fg-dim); }
 .listing-status{
@@ -667,6 +671,49 @@ button.listing-status{ cursor: pointer; }
 .listing-status.private{ color: var(--fg-faint); }
 button.listing-status.private:hover{ color: var(--blue); }
 .listing-empty{ padding: 60px 0; text-align: center; color: var(--fg-dim); font-family: var(--font-body); font-size: 14px; }
+
+/* Bundles strip -- sits above the filtered listing since a multi-domain
+   bundle has no single extension/category to filter by. Hidden by JS
+   (initBundleStrip) when data/bundles.json is empty. */
+.bundle-strip{ margin-bottom: 40px; }
+.bundle-strip-label{
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin-bottom: 12px;
+}
+.bundle-strip-list{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+.bundle-card{
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--fg);
+  transition: border-color 0.15s ease;
+}
+.bundle-card:hover{ border-color: var(--fg); }
+.bundle-card-top{ display: flex; align-items: center; justify-content: space-between; }
+.bundle-card-tag{
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.bundle-card-telegram{ color: #229ED9; display: inline-flex; }
+.bundle-card-telegram svg{ width: 14px; height: 14px; }
+.bundle-card-name{ font-family: var(--font-mono); font-size: 15px; font-weight: 600; }
+.bundle-card-domains{ font-family: var(--font-body); font-size: 12.5px; color: var(--fg-dim); }
 
 /* ============================================================
    Lander — minimal, standalone domain landing experience
@@ -699,7 +746,7 @@ button.listing-status.private:hover{ color: var(--blue); }
 
 .lander-center{
   max-width: 620px;
-  padding: 120px 28px 140px;
+  padding: 120px 28px 90px;
   text-align: center;
 }
 .lander-hero{
@@ -736,6 +783,17 @@ button.listing-status.private:hover{ color: var(--blue); }
   color: var(--blue);
   margin-bottom: 24px;
 }
+.lander-includes{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: -12px 0 22px;
+  font-size: 12.5px;
+  color: var(--fg-dim);
+}
+.lander-includes svg{ color: #229ED9; flex-shrink: 0; }
+.lander-includes strong{ color: var(--fg); font-weight: 600; }
 .lander-desc{
   color: var(--fg-dim);
   font-size: 16px;
@@ -782,7 +840,8 @@ button.listing-status.private:hover{ color: var(--blue); }
 /* Cross-sell strip */
 .lander-other{
   border-top: 1px solid var(--line);
-  padding-top: 28px;
+  margin-top: 20px;
+  padding-top: 32px;
   margin-bottom: 22px;
 }
 .lander-other-label{
@@ -827,76 +886,14 @@ button.listing-status.private:hover{ color: var(--blue); }
   margin: 0 auto;
 }
 
-/* Floating enquiry widget */
-.lander-fab{
-  position: fixed;
-  right: 22px;
-  bottom: 22px;
-  z-index: 30;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-}
-.lander-fab-pill{
-  background: var(--fg);
-  color: #fff;
-  border: none;
-  border-radius: 999px;
-  padding: 13px 22px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 12.5px;
-  cursor: pointer;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
-  transition: transform 0.15s ease, background 0.15s ease;
-}
-.lander-fab-pill:hover{ background: #33353a; transform: translateY(-1px); }
-.lander-fab-pill.hidden{ display: none; }
-
-.lander-fab-panel{
-  display: none;
-  width: min(320px, calc(100vw - 44px));
-  background: var(--bg);
-  border: 1px solid var(--line-bright);
-  border-radius: var(--radius);
-  padding: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.16);
-}
-.lander-fab-panel.open{ display: block; animation: fabIn 0.18s ease; }
-@keyframes fabIn{ from{ opacity: 0; transform: translateY(6px); } to{ opacity: 1; transform: translateY(0); } }
-.lander-fab-head{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-  font-size: 13px;
-  color: var(--fg);
-}
-.lander-fab-panel .field{ margin-bottom: 10px; }
-.lander-fab-panel input, .lander-fab-panel textarea{
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--line-bright);
-  border-radius: var(--radius);
-  color: var(--fg);
-  font-family: var(--font-body);
-  font-size: 13.5px;
-  padding: 10px 11px;
-}
-.lander-fab-panel textarea{ min-height: 64px; resize: vertical; }
-.lander-fab-panel input:focus, .lander-fab-panel textarea:focus{ outline: none; border-color: var(--blue); }
-
 @media (max-width: 560px){
   .lander-corner{ top: 16px; left: 16px; }
-  .lander-center{ padding: 96px 20px 130px; }
-  .lander-fab{ right: 16px; bottom: 16px; left: 16px; align-items: stretch; }
-  .lander-fab-panel{ width: 100%; }
-  .lander-fab-pill{ align-self: flex-end; }
+  .lander-center{ padding: 96px 20px 90px; }
 }
 
 /* Minimal lander variant — single centered image/video, white page */
 .lander-shell--minimal{
+  flex-direction: column;
   background: var(--bg);
   color: var(--fg);
   width: 100%;
@@ -913,6 +910,14 @@ button.listing-status.private:hover{ color: var(--blue); }
   max-width: 620px;
   height: auto;
 }
+.lander-minimal-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 28px 56px;
+  text-align: center;
+}
+.lander-minimal-info .lander-badge{ margin-bottom: 20px; }
 @media (max-width: 560px){
   .lander-minimal-media{ width: 84vw; }
 }

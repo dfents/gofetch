@@ -9,9 +9,12 @@
 
   var DOMAINS = [];
   var PICKS = [];
+  var BUNDLES = [];
   var GOFETCH_HOSTS = ["gofetch.com", "www.gofetch.com", "localhost", "127.0.0.1"];
   var ATOM_PAY_TOKEN = "4f3f3a48bdbed5cb";
   var atomPayScriptLoaded = false;
+  /* Change this one value to update every Telegram button on the site at once. */
+  var TELEGRAM_HANDLE = "dfents";
 
   function loadAtomPayScript() {
     // pay-with-atom.js scans the DOM for ".pay-with-atom" buttons as soon as
@@ -40,6 +43,68 @@
           "<span>Buy With</span>" +
           '<img src="https://www.atom.com/assets/pay.png" alt="Atom Logo">' +
         "</button>" +
+      "</div>"
+    );
+  }
+
+  /* Reused everywhere a Telegram paper-plane glyph is needed: the sitewide
+     contact button, the "also includes a Telegram handle" badge on a
+     listing's own lander, and the matching tag on Collection-page rows
+     and bundle cards. */
+  var TELEGRAM_ICON_SVG =
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
+
+  function telegramButtonHTML() {
+    return (
+      '<a class="btn btn-telegram" href="https://t.me/' + TELEGRAM_HANDLE + '" target="_blank" rel="noopener">' +
+        TELEGRAM_ICON_SVG +
+        "<span>Telegram</span>" +
+      "</a>"
+    );
+  }
+
+  /* For listings sold together with a Telegram handle (e.g. blackbadge.com
+     alongside @blackbadge) -- separate from the general "contact us on
+     Telegram" button above, this says the handle itself is part of what's
+     for sale. Works on both domain records and bundle objects, since both
+     may carry a telegramHandle field. */
+  function telegramIncludedHTML(record) {
+    if (!record.telegramHandle) return "";
+    return (
+      '<div class="lander-includes mono">' +
+        TELEGRAM_ICON_SVG +
+        '<span>Includes <strong>@' + escapeHtml(record.telegramHandle) + '</strong> on Telegram</span>' +
+      "</div>"
+    );
+  }
+
+  function statusLine(record) {
+    if (record.pricingMode === "buy_now") return "Domain name for sale · Buy now · " + fmtPrice(record);
+    if (record.pricingMode === "make_offer") return "Domain name for sale · Offers invited";
+    return "Domain name for sale · Enquire";
+  }
+
+  function landerActionsHTML(record) {
+    return (
+      '<div class="lander-actions">' +
+        '<button type="button" class="btn btn-primary" data-enquire="' + escapeHtml(record.domain) + '">Make an enquiry</button>' +
+        telegramButtonHTML() +
+      "</div>"
+    );
+  }
+
+  function bundleStatusLine(b) {
+    var priceBit = b.priceText ? " · " + escapeHtml(b.priceText) : "";
+    if (b.pricingMode === "make_offer") return "Bundle for sale · Offers invited" + priceBit;
+    return "Bundle for sale · Enquire" + priceBit;
+  }
+
+  function bundleActionsHTML(b) {
+    var domainsJoined = (b.domains || []).join(" + ");
+    return (
+      '<div class="lander-actions">' +
+        '<button type="button" class="btn btn-primary" data-enquire="' + escapeHtml(domainsJoined) + '">Make an enquiry</button>' +
+        telegramButtonHTML() +
       "</div>"
     );
   }
@@ -83,6 +148,24 @@
     return pool.slice(0, n);
   }
 
+  /* Same "also from GoFetch" picker as pickOtherNames, but excludes a whole
+     list of domains at once -- used on a bundle's own lander so it doesn't
+     recommend the names already included in that bundle. */
+  function pickOtherNamesExcluding(excludeDomains, n) {
+    var exclude = {};
+    (excludeDomains || []).forEach(function (d) {
+      exclude[(d || "").toLowerCase()] = true;
+    });
+    var pool = DOMAINS.filter(function (d) {
+      return !exclude[d.domain.toLowerCase()];
+    });
+    pool.sort(function (a, b) {
+      var score = function (d) { return (d.hasLander ? 2 : 0) + (d.featured ? 1 : 0); };
+      return score(b) - score(a);
+    });
+    return pool.slice(0, n);
+  }
+
   function otherNameLink(d) {
     var href = d.hasLander ? "https://" + d.domain + "/" : "https://gofetch.com/lander.html?d=" + encodeURIComponent(d.domain);
     return (
@@ -105,6 +188,17 @@
     });
   }
 
+  function byBundle(slug) {
+    var s = (slug || "").toLowerCase();
+    return BUNDLES.find(function (b) {
+      return (b.slug || "").toLowerCase() === s;
+    });
+  }
+
+  function bundleHref(b) {
+    return "/bundle.html?b=" + encodeURIComponent(b.slug || "");
+  }
+
   /* ----------------------------------------------------------
      Hostname-aware routing: if this deploy is being served on
      an owned domain's hostname, render that domain's lander in
@@ -124,10 +218,6 @@
       return;
     }
     var mode = record.pricingMode;
-    var badge =
-      mode === "buy_now" ? "Available · Buy now · " + fmtPrice(record) :
-      mode === "make_offer" ? "Available · Offers invited" :
-      "Privately held";
 
     var media = logoMedia(record, "lander-media");
     var hero = media
@@ -151,8 +241,10 @@
         '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
         '<div class="container lander-center">' +
           '<div class="lander-hero">' + hero + "</div>" +
-          '<div class="lander-badge mono">' + badge + "</div>" +
+          '<div class="lander-badge mono">' + statusLine(record) + "</div>" +
+          telegramIncludedHTML(record) +
           atomPayButtonHTML(record) +
+          landerActionsHTML(record) +
           descHtml +
           '<div class="lander-meta mono">' +
             '<span>' + categoryHtml + "</span>" +
@@ -161,37 +253,9 @@
           othersHtml +
           '<p class="lander-bulk">Multiple names, or leasing rather than buying? Bulk and lease terms available — mention it in your enquiry.</p>' +
         "</div>" +
-        '<div class="lander-fab" data-fab>' +
-          '<button class="lander-fab-pill mono" type="button" data-fab-toggle>Make an enquiry</button>' +
-          '<div class="lander-fab-panel" data-fab-panel>' +
-            '<div class="lander-fab-head">' +
-              '<span class="mono">Enquire about ' + record.domain + "</span>" +
-              '<button class="modal-close" type="button" data-fab-close aria-label="Close">&times;</button>' +
-            "</div>" +
-            '<form data-fab-form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="fab-hp">' +
-              '<input type="hidden" name="form-name" value="enquiry">' +
-              '<input type="hidden" name="domain" value="' + record.domain + '">' +
-              '<input type="text" name="fab-hp" class="hp-field" tabindex="-1" autocomplete="off">' +
-              '<div class="field"><input type="text" name="name" placeholder="Name" required></div>' +
-              '<div class="field"><input type="email" name="email" placeholder="Email" required></div>' +
-              '<div class="field"><input type="text" name="budget" placeholder="Offer / budget (optional)"></div>' +
-              '<div class="field"><textarea name="message" placeholder="Message (optional)"></textarea></div>' +
-              '<button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Send enquiry</button>' +
-              '<div class="form-status" data-fab-status role="status"></div>' +
-            "</form>" +
-          "</div>" +
-        "</div>" +
       "</div>";
 
     if (mode === "buy_now" && record.price) loadAtomPayScript();
-
-    initLanderFab(container);
-  }
-
-  function minimalPillLabel(record) {
-    if (record.pricingMode === "buy_now") return "For sale · " + fmtPrice(record);
-    if (record.pricingMode === "make_offer") return "For sale · Make an offer";
-    return "For sale · Enquire";
   }
 
   function renderMinimalLanderInto(container, record) {
@@ -201,91 +265,54 @@
       '<div class="lander-shell lander-shell--minimal">' +
         '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
         '<div class="lander-minimal-center">' + media + "</div>" +
-        '<div class="lander-fab" data-fab>' +
-          '<button class="lander-fab-pill mono" type="button" data-fab-toggle>' + minimalPillLabel(record) + "</button>" +
-          '<div class="lander-fab-panel" data-fab-panel>' +
-            '<div class="lander-fab-head">' +
-              '<span class="mono">Enquire about ' + record.domain + "</span>" +
-              '<button class="modal-close" type="button" data-fab-close aria-label="Close">&times;</button>' +
-            "</div>" +
-            '<form data-fab-form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="fab-hp">' +
-              '<input type="hidden" name="form-name" value="enquiry">' +
-              '<input type="hidden" name="domain" value="' + record.domain + '">' +
-              '<input type="text" name="fab-hp" class="hp-field" tabindex="-1" autocomplete="off">' +
-              '<div class="field"><input type="text" name="name" placeholder="Name" required></div>' +
-              '<div class="field"><input type="email" name="email" placeholder="Email" required></div>' +
-              '<div class="field"><input type="text" name="budget" placeholder="Offer / budget (optional)"></div>' +
-              '<div class="field"><textarea name="message" placeholder="Message (optional)"></textarea></div>' +
-              '<button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Send enquiry</button>' +
-              '<div class="form-status" data-fab-status role="status"></div>' +
-            "</form>" +
-          "</div>" +
+        '<div class="lander-minimal-info">' +
+          '<div class="lander-badge mono">' + statusLine(record) + "</div>" +
+          telegramIncludedHTML(record) +
+          atomPayButtonHTML(record) +
+          landerActionsHTML(record) +
         "</div>" +
       "</div>";
 
-    initLanderFab(container);
+    if (record.pricingMode === "buy_now" && record.price) loadAtomPayScript();
   }
 
-  function initLanderFab(container) {
-    var fab = container.querySelector("[data-fab]");
-    if (!fab) return;
-    var pill = fab.querySelector("[data-fab-toggle]");
-    var panel = fab.querySelector("[data-fab-panel]");
-    var closeBtn = fab.querySelector("[data-fab-close]");
-    var form = fab.querySelector("[data-fab-form]");
-    var status = fab.querySelector("[data-fab-status]");
-    var openedAt = null;
+  /* Bundle landers reuse the same shell/typography as a single-domain
+     lander (lander-hero, lander-badge, lander-actions, lander-other, ...)
+     but never AtomPay -- its checkout is tied to one specifically-owned
+     domain name, so bundles are always sold via enquiry. */
+  function renderBundleInto(container, b) {
+    var domainsLine = (b.domains || []).map(escapeHtml).join(" + ");
+    var title = b.name ? escapeHtml(b.name) : domainsLine;
+    var hero = '<h1 class="lander-domain mono">' + title + "</h1>" +
+      (b.name ? '<div class="lander-caption mono">' + domainsLine + "</div>" : "");
 
-    function open() {
-      panel.classList.add("open");
-      pill.classList.add("hidden");
-      openedAt = Date.now();
-      var first = form.querySelector('input[name="name"]');
-      if (first) first.focus();
-    }
-    function close() {
-      panel.classList.remove("open");
-      pill.classList.remove("hidden");
-    }
+    var others = pickOtherNamesExcluding(b.domains, 3);
+    var othersHtml = others.length
+      ? '<div class="lander-other">' +
+          '<div class="lander-other-label mono">Also from GoFetch</div>' +
+          '<div class="lander-other-list">' + others.map(otherNameLink).join("") + "</div>" +
+          '<a class="lander-other-more mono" href="https://gofetch.com/collection.html">View full collection →</a>' +
+        "</div>"
+      : "";
 
-    pill.addEventListener("click", open);
-    closeBtn.addEventListener("click", close);
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && panel.classList.contains("open")) close();
-    });
+    var descHtml = b.description ? '<p class="lander-desc">' + b.description + "</p>" : "";
+    var count = (b.domains || []).length;
+    var countLabel = count + " domain" + (count === 1 ? "" : "s") + " in this bundle";
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var hp = form.querySelector('input[name="fab-hp"]').value;
-      var elapsed = openedAt ? Date.now() - openedAt : 0;
-      if (hp || elapsed < 1200) {
-        status.textContent = "Something went wrong. Please try again.";
-        status.className = "form-status err";
-        return;
-      }
-      var data = new FormData(form);
-      var body = new URLSearchParams();
-      data.forEach(function (v, k) { body.append(k, v); });
-
-      status.textContent = "Sending…";
-      status.className = "form-status";
-
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: body.toString(),
-      })
-        .then(function () {
-          status.textContent = "Enquiry received. We'll respond directly.";
-          status.className = "form-status ok";
-          form.reset();
-          setTimeout(close, 1800);
-        })
-        .catch(function () {
-          status.textContent = "Couldn't send — please email hello@gofetch.com directly.";
-          status.className = "form-status err";
-        });
-    });
+    container.innerHTML =
+      '<div class="lander-shell">' +
+        '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
+        '<div class="container lander-center">' +
+          '<div class="lander-hero">' + hero + "</div>" +
+          '<div class="lander-badge mono">' + bundleStatusLine(b) + "</div>" +
+          telegramIncludedHTML(b) +
+          bundleActionsHTML(b) +
+          descHtml +
+          '<div class="lander-meta mono"><span>' + countLabel + "</span></div>" +
+          othersHtml +
+          '<p class="lander-bulk">Interested in the whole bundle, or just one piece of it? Say so in your enquiry.</p>' +
+        "</div>" +
+      "</div>";
   }
 
   /* ----------------------------------------------------------
@@ -496,14 +523,47 @@
     var statusHtml = d.pricingMode === "private"
       ? '<button type="button" class="listing-status mono private" data-enquire="' + escapeHtml(d.domain) + '">Enquire</button>'
       : '<span class="listing-status mono ' + d.pricingMode + '">' + STATUS_LABEL[d.pricingMode] + "</span>";
+    var telegramTag = d.telegramHandle
+      ? '<span class="listing-telegram-tag" title="Includes @' + escapeHtml(d.telegramHandle) + ' on Telegram">' + TELEGRAM_ICON_SVG + "</span>"
+      : "";
     return (
       '<div class="listing-row" data-href="' + href + '">' +
-      '<a class="listing-domain mono" href="' + href + '">' + d.domain + "</a>" +
+      '<a class="listing-domain mono" href="' + href + '">' + d.domain + telegramTag + "</a>" +
       '<span class="listing-cats mono">' + d.category.join(" / ") + "</span>" +
       '<span class="listing-price mono">' + fmtPrice(d) + "</span>" +
       statusHtml +
       "</div>"
     );
+  }
+
+  function bundleCardHtml(b) {
+    var domainsText = (b.domains || []).join(" + ");
+    var telegramTag = b.telegramHandle
+      ? '<span class="bundle-card-telegram" title="Includes @' + escapeHtml(b.telegramHandle) + ' on Telegram">' + TELEGRAM_ICON_SVG + "</span>"
+      : "";
+    return (
+      '<a class="bundle-card" href="' + bundleHref(b) + '">' +
+        '<div class="bundle-card-top mono"><span class="bundle-card-tag">Bundle</span>' + telegramTag + "</div>" +
+        '<div class="bundle-card-name mono">' + escapeHtml(b.name || domainsText) + "</div>" +
+        '<div class="bundle-card-domains mono">' + escapeHtml(domainsText) + "</div>" +
+      "</a>"
+    );
+  }
+
+  /* Bundles have no single extension/category, so they sit above the
+     filtered listing as their own strip rather than trying to fit the
+     Collection page's per-domain filters. Hidden entirely when there are
+     no bundles yet. */
+  function initBundleStrip() {
+    var el = document.getElementById("bundle-strip");
+    if (!el) return;
+    if (!BUNDLES.length) {
+      el.style.display = "none";
+      return;
+    }
+    el.innerHTML =
+      '<div class="bundle-strip-label mono">Bundles &amp; pairs</div>' +
+      '<div class="bundle-strip-list">' + BUNDLES.map(bundleCardHtml).join("") + "</div>";
   }
 
   /* Rows built by listingRowHtml are no longer a single <a> (a private
@@ -654,6 +714,37 @@
   }
 
   /* ----------------------------------------------------------
+     Standalone bundle page (bundle.html?b=slug)
+     ---------------------------------------------------------- */
+  function initStandaloneBundle() {
+    var container = document.getElementById("standalone-bundle");
+    if (!container) return;
+    var params = new URLSearchParams(window.location.search);
+    var slug = params.get("b");
+    var bundle = slug ? byBundle(slug) : null;
+
+    if (!bundle) {
+      container.innerHTML =
+        '<div class="lander-shell">' +
+        '<a class="lander-corner mono" href="https://gofetch.com/">' + markSVG(15) + "<span>GoFetch</span></a>" +
+        '<div class="container lander-center">' +
+        '<div class="lander-hero"><h1 class="lander-domain mono">Bundle not listed</h1></div>' +
+        '<div class="lander-badge mono">Not found</div>' +
+        '<p class="lander-desc">This bundle isn’t in the public collection. Tell us what you’re looking for and we’ll check.</p>' +
+        '<div class="lander-actions"><button class="btn btn-primary" data-enquire="" data-mode="finder">Tell us what you need</button>' +
+        '<a class="btn btn-ghost" href="/collection.html">Browse collection</a></div>' +
+        "</div></div>";
+      return;
+    }
+    document.title = (bundle.name || bundle.domains.join(" + ")) + " — GoFetch";
+    var siteHeader2 = document.querySelector(".site-header");
+    var siteFooter2 = document.querySelector("footer");
+    if (siteHeader2) siteHeader2.style.display = "none";
+    if (siteFooter2) siteFooter2.style.display = "none";
+    renderBundleInto(container, bundle);
+  }
+
+  /* ----------------------------------------------------------
      Enquiry modal + Netlify-compatible form submission
      ---------------------------------------------------------- */
   function initEnquiryModal() {
@@ -764,8 +855,10 @@
     }
 
     initCollection();
+    initBundleStrip();
     initLiquidatePage();
     initStandaloneLander();
+    initStandaloneBundle();
     initEnquiryModal();
     initListingRowNav();
 
@@ -791,6 +884,15 @@
       }).catch(function (err) {
         console.error("GoFetch: failed to load handpicked picks", err);
         PICKS = [];
+      }),
+      fetch("/data/bundles.json").then(function (res) {
+        if (!res.ok) throw new Error("bundles.json fetch failed: " + res.status);
+        return res.json();
+      }).then(function (data) {
+        BUNDLES = data.bundles || [];
+      }).catch(function (err) {
+        console.error("GoFetch: failed to load bundles", err);
+        BUNDLES = [];
       }),
     ]).then(boot);
   });
