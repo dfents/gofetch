@@ -47,3 +47,36 @@ collections:
               - { label: "Show on homepage as Featured (max 6)", name: "featured", widget: "boolean", default: false }
               - { label: "Enable dedicated lander (renders when this domain's DNS points here)", name: "hasLander", widget: "boolean", default: true }
               - { label: "Year acquired", name: "acquired", widget: "number", required: false, value_type: "int" }
+              - label: "Sale type"
+                name: "saleType"
+                widget: "select"
+                required: false
+                hint: "Optional merchandising tag, independent of Acquisition mode above. Set to Liquidation to show this domain in the homepage/Deals-page Liquidation & current deals section."
+                options:
+                  - { label: "None", value: "" }
+                  - { label: "Liquidation", value: "liquidation" }
+
+  - name: "picks"
+    label: "Handpicked by Daniel"
+    files:
+      - name: "picks"
+        label: "Handpicked Picks"
+        file: "data/picks.json"
+        description: "Names NOT in the GoFetch collection that Daniel is watching elsewhere (Atom, GoDaddy, Sedo, etc). Shown in the homepage's Handpicked by Daniel band, each linking out to the source listing."
+        fields:
+          - label: "Picks"
+            name: "picks"
+            widget: "list"
+            summary: "{{fields.name}} — via {{fields.platform}}"
+            fields:
+              - { label: "Domain name", name: "name", widget: "string" }
+              - { label: "Source platform (e.g. Atom, GoDaddy, Sedo)", name: "platform", widget: "string" }
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                options:
+                  - { label: "At auction", value: "auction" }
+                  - { label: "Buy now", value: "buy_now" }
+              - { label: "Note (why it caught your eye)", name: "note", widget: "text" }
+              - { label: "Price or bid text, e.g. 1850 dollars, 3 bids", name: "price", widget: "string" }
+              - { label: "Listing URL (link to the source platform)", name: "url", widget: "string" }
