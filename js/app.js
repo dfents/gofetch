@@ -492,14 +492,33 @@
   }
 
   function listingRowHtml(d) {
+    var href = "/lander.html?d=" + encodeURIComponent(d.domain);
+    var statusHtml = d.pricingMode === "private"
+      ? '<button type="button" class="listing-status mono private" data-enquire="' + escapeHtml(d.domain) + '">Enquire</button>'
+      : '<span class="listing-status mono ' + d.pricingMode + '">' + STATUS_LABEL[d.pricingMode] + "</span>";
     return (
-      '<a class="listing-row" href="/lander.html?d=' + encodeURIComponent(d.domain) + '">' +
-      '<span class="listing-domain mono">' + d.domain + "</span>" +
+      '<div class="listing-row" data-href="' + href + '">' +
+      '<a class="listing-domain mono" href="' + href + '">' + d.domain + "</a>" +
       '<span class="listing-cats mono">' + d.category.join(" / ") + "</span>" +
       '<span class="listing-price mono">' + fmtPrice(d) + "</span>" +
-      '<span class="listing-status mono ' + d.pricingMode + '">' + STATUS_LABEL[d.pricingMode] + "</span>" +
-      "</a>"
+      statusHtml +
+      "</div>"
     );
+  }
+
+  /* Rows built by listingRowHtml are no longer a single <a> (a private
+     row needs its own Enquire control that opens the modal instead of
+     navigating). Clicking anywhere in the row except that control, or
+     the domain link, still goes to the lander — handled here once via
+     delegation since rows are re-rendered on every filter/search change. */
+  function initListingRowNav() {
+    document.addEventListener("click", function (e) {
+      var row = e.target.closest(".listing-row[data-href]");
+      if (!row) return;
+      if (e.target.closest("[data-enquire]")) return;
+      if (e.target.closest("a")) return;
+      window.location.href = row.getAttribute("data-href");
+    });
   }
 
   function initCollection() {
@@ -748,6 +767,7 @@
     initLiquidatePage();
     initStandaloneLander();
     initEnquiryModal();
+    initListingRowNav();
 
     document.body.classList.remove("pre-boot");
   }

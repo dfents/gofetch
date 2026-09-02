@@ -643,15 +643,29 @@ footer a:hover{ color: var(--fg); }
   padding: 18px 4px;
   border-bottom: 1px solid var(--line);
   transition: background 0.15s ease;
+  cursor: pointer;
 }
 .listing-row:hover{ background: var(--bg-raised); }
 .listing-domain{ font-family: var(--font-mono); font-size: 16px; }
 .listing-cats{ font-family: var(--font-body); font-size: 13px; color: var(--fg-dim); }
 .listing-price{ font-family: var(--font-mono); font-size: 13px; color: var(--fg-dim); }
-.listing-status{ font-family: var(--font-body); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; text-align: right; }
+.listing-status{
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: right;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+button.listing-status{ cursor: pointer; }
 .listing-status.buy_now{ color: var(--blue); }
 .listing-status.make_offer{ color: var(--fg-dim); }
 .listing-status.private{ color: var(--fg-faint); }
+button.listing-status.private:hover{ color: var(--blue); }
 .listing-empty{ padding: 60px 0; text-align: center; color: var(--fg-dim); font-family: var(--font-body); font-size: 14px; }
 
 /* ============================================================
@@ -737,7 +751,13 @@ footer a:hover{ color: var(--fg); }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--blue);
+  /* !important: Atom'''s own pay-with-atom.js sets an inline
+     background: grey while it fetches a price token on load, then
+     swaps to its own gradient once that resolves — both via plain
+     (non-!important) inline styles, which briefly flash grey. This
+     beats that inline style either way, so the button reads as one
+     steady brand-blue instead of flickering. */
+  background: var(--blue) !important;
   color: #fff;
   border: none;
   border-radius: 999px;
