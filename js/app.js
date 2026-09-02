@@ -315,45 +315,13 @@
     var form = document.getElementById("terminal-form");
     if (!form) return;
     var input = document.getElementById("terminal-input");
-    var result = document.getElementById("terminal-result");
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var q = input.value.trim().toLowerCase();
-      if (!q) return;
-      result.classList.remove("show");
-      void result.offsetWidth; /* restart animation */
-
-      var direct = DOMAINS.find(function (d) {
-        return d.domain.toLowerCase() === q || d.domain.toLowerCase() === q + ".com";
-      });
-      var partial = !direct && DOMAINS.filter(function (d) {
-        return d.domain.toLowerCase().indexOf(q) !== -1 ||
-          d.category.join(" ").toLowerCase().indexOf(q) !== -1;
-      }).slice(0, 4);
-
-      if (direct) {
-        result.innerHTML =
-          '<div class="status-line">FETCH COMPLETE</div>' +
-          '<span class="tr-domain">' + direct.domain + "</span>" +
-          '<div class="tr-row"><span class="k">STATUS</span><span class="v">' + (direct.pricingMode === "private" ? "PRIVATELY HELD" : "AVAILABLE") + "</span></div>" +
-          '<div class="tr-row"><span class="k">CATEGORY</span><span class="v">' + direct.category.join(" / ").toUpperCase() + "</span></div>" +
-          '<div class="tr-row"><span class="k">ACQUISITION</span><span class="v">' + STATUS_LABEL[direct.pricingMode].toUpperCase() + "</span></div>" +
-          '<div class="tr-actions"><a class="btn btn-ghost" href="/lander.html?d=' + encodeURIComponent(direct.domain) + '">View asset</a>' +
-          '<button class="btn btn-primary" data-enquire="' + direct.domain + '">Enquire</button></div>';
-      } else if (partial && partial.length) {
-        result.innerHTML =
-          '<div class="status-line">' + partial.length + " RESULT" + (partial.length > 1 ? "S" : "") + " FOUND</div>" +
-          partial.map(function (d) {
-            return '<div class="tr-row"><span class="k mono">' + d.domain + '</span><span class="v"><a href="/lander.html?d=' + encodeURIComponent(d.domain) + '" style="text-decoration:underline">view →</a></span></div>';
-          }).join("");
-      } else {
-        result.innerHTML =
-          '<div class="status-line">QUERY LOGGED</div>' +
-          '<div class="tr-empty">No public match for "' + escapeHtml(q) + '". Much of the collection is privately held. Tell us what you\'re building and we\'ll check the full inventory.</div>' +
-          '<div class="tr-actions"><button class="btn btn-primary" data-enquire="' + escapeHtml(q) + '" data-mode="finder">Tell us what you need</button></div>';
-      }
-      result.classList.add("show");
+      var q = input.value.trim();
+      window.location.href = q
+        ? "/collection.html?q=" + encodeURIComponent(q)
+        : "/collection.html";
     });
   }
 
@@ -494,9 +462,52 @@
   /* ----------------------------------------------------------
      Collection page: filters + listing
      ---------------------------------------------------------- */
+  function levenshtein(a, b) {
+    a = (a || "").toLowerCase();
+    b = (b || "").toLowerCase();
+    var m = a.length, n = b.length;
+    var dp = [];
+    for (var i = 0; i <= m; i++) dp[i] = [i];
+    for (var j = 0; j <= n; j++) dp[0][j] = j;
+    for (i = 1; i <= m; i++) {
+      for (j = 1; j <= n; j++) {
+        dp[i][j] = a[i - 1] === b[j - 1]
+          ? dp[i - 1][j - 1]
+          : 1 + Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+    return dp[m][n];
+  }
+
+  function closestMatches(q, pool, n) {
+    return pool
+      .map(function (d) {
+        var name = d.domain.split(".")[0];
+        var dist = Math.min(levenshtein(q, name), levenshtein(q, d.domain));
+        return { d: d, dist: dist };
+      })
+      .sort(function (a, b) { return a.dist - b.dist; })
+      .slice(0, n)
+      .map(function (x) { return x.d; });
+  }
+
+  function listingRowHtml(d) {
+    return (
+      '<a class="listing-row" href="/lander.html?d=' + encodeURIComponent(d.domain) + '">' +
+      '<span class="listing-domain mono">' + d.domain + "</span>" +
+      '<span class="listing-cats mono">' + d.category.join(" / ") + "</span>" +
+      '<span class="listing-price mono">' + fmtPrice(d) + "</span>" +
+      '<span class="listing-status mono ' + d.pricingMode + '">' + STATUS_LABEL[d.pricingMode] + "</span>" +
+      "</a>"
+    );
+  }
+
   function initCollection() {
     var listEl = document.getElementById("listing");
     if (!listEl) return;
+    var fallbackEl = document.getElementById("listing-fallback");
+    var noteEl = document.getElementById("search-note");
+    var searchInput = document.getElementById("collection-search-input");
 
     var state = { ext: "all", cat: "all", mode: "all" };
 
@@ -508,6 +519,13 @@
     renderFilterGroup("filter-mode", "Acquisition", ["all", "buy_now", "make_offer", "private"], state, "mode", {
       all: "All", buy_now: "Buy now", make_offer: "Make offer", private: "Private",
     });
+
+    if (searchInput) {
+      var params = new URLSearchParams(window.location.search);
+      var initialQ = params.get("q") || "";
+      if (initialQ) searchInput.value = initialQ;
+      searchInput.addEventListener("input", render);
+    }
 
     function uniqueSorted(arr) {
       return Array.from(new Set(arr)).sort();
@@ -532,31 +550,54 @@
     }
 
     function render() {
-      var filtered = DOMAINS.filter(function (d) {
+      var base = DOMAINS.filter(function (d) {
         if (state.ext !== "all" && d.extension !== state.ext) return false;
         if (state.cat !== "all" && d.category.indexOf(state.cat) === -1) return false;
         if (state.mode !== "all" && d.pricingMode !== state.mode) return false;
         return true;
       });
 
-      document.getElementById("collection-count").textContent =
-        filtered.length + " asset" + (filtered.length === 1 ? "" : "s") + " shown · more held privately";
+      var q = searchInput ? searchInput.value.trim().toLowerCase() : "";
+      var shown = base;
+      fallbackEl.innerHTML = "";
 
-      if (!filtered.length) {
+      if (!q) {
+        noteEl.style.display = "none";
+        noteEl.innerHTML = "";
+      } else {
+        var matched = base.filter(function (d) {
+          return d.domain.toLowerCase().indexOf(q) !== -1 ||
+            d.category.join(" ").toLowerCase().indexOf(q) !== -1;
+        });
+
+        if (matched.length) {
+          shown = matched;
+          noteEl.innerHTML = matched.length + " result" + (matched.length === 1 ? "" : "s") + " for \u201c" + escapeHtml(q) + "\u201d";
+          noteEl.style.display = "";
+        } else {
+          var closest = closestMatches(q, base, 4);
+          shown = closest;
+          noteEl.innerHTML = "No exact match for \u201c" + escapeHtml(q) + "\u201d. Showing the closest names, and the full collection below.";
+          noteEl.style.display = "";
+
+          var rest = base.filter(function (d) { return closest.indexOf(d) === -1; });
+          if (rest.length) {
+            fallbackEl.innerHTML =
+              '<div class="listing-fallback-head">Full collection</div>' +
+              '<div class="listing">' + rest.map(listingRowHtml).join("") + "</div>";
+          }
+        }
+      }
+
+      document.getElementById("collection-count").textContent =
+        shown.length + " asset" + (shown.length === 1 ? "" : "s") + " shown · more held privately";
+
+      if (!shown.length) {
         listEl.innerHTML = '<div class="listing-empty mono">No matches. Try clearing a filter.</div>';
         return;
       }
 
-      listEl.innerHTML = filtered.map(function (d) {
-        return (
-          '<a class="listing-row" href="/lander.html?d=' + encodeURIComponent(d.domain) + '">' +
-          '<span class="listing-domain mono">' + d.domain + "</span>" +
-          '<span class="listing-cats mono">' + d.category.join(" / ") + "</span>" +
-          '<span class="listing-price mono">' + fmtPrice(d) + "</span>" +
-          '<span class="listing-status mono ' + d.pricingMode + '">' + STATUS_LABEL[d.pricingMode] + "</span>" +
-          "</a>"
-        );
-      }).join("");
+      listEl.innerHTML = shown.map(listingRowHtml).join("");
     }
 
     render();

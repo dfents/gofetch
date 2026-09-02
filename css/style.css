@@ -582,11 +582,52 @@ footer a:hover{ color: var(--fg); }
 .filter-option.active{ color: var(--blue); font-weight: 600; }
 .filter-option .count{ color: var(--fg-faint); }
 
+.collection-searchbar{
+  margin-bottom: 20px;
+}
+.collection-search-input{
+  width: 100%;
+  max-width: 440px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--fg);
+  background: var(--bg);
+}
+.collection-search-input:focus{
+  outline: none;
+  border-color: var(--blue);
+}
+.collection-search-input::placeholder{ color: var(--fg-faint); }
+
 .collection-count{
   font-family: var(--font-body);
   font-size: 12.5px;
   color: var(--fg-dim);
   margin-bottom: 18px;
+}
+
+.search-note{
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--fg-dim);
+  margin: -8px 0 18px;
+  display: none;
+}
+.search-note strong{ color: var(--fg); font-weight: 600; }
+
+.listing-fallback-head{
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+  margin: 28px 0 6px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
 }
 
 .listing{
