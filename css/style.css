@@ -582,11 +582,52 @@ footer a:hover{ color: var(--fg); }
 .filter-option.active{ color: var(--blue); font-weight: 600; }
 .filter-option .count{ color: var(--fg-faint); }
 
+.collection-searchbar{
+  margin-bottom: 20px;
+}
+.collection-search-input{
+  width: 100%;
+  max-width: 440px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--fg);
+  background: var(--bg);
+}
+.collection-search-input:focus{
+  outline: none;
+  border-color: var(--blue);
+}
+.collection-search-input::placeholder{ color: var(--fg-faint); }
+
 .collection-count{
   font-family: var(--font-body);
   font-size: 12.5px;
   color: var(--fg-dim);
   margin-bottom: 18px;
+}
+
+.search-note{
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--fg-dim);
+  margin: -8px 0 18px;
+  display: none;
+}
+.search-note strong{ color: var(--fg); font-weight: 600; }
+
+.listing-fallback-head{
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+  margin: 28px 0 6px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
 }
 
 .listing{
@@ -602,15 +643,29 @@ footer a:hover{ color: var(--fg); }
   padding: 18px 4px;
   border-bottom: 1px solid var(--line);
   transition: background 0.15s ease;
+  cursor: pointer;
 }
 .listing-row:hover{ background: var(--bg-raised); }
 .listing-domain{ font-family: var(--font-mono); font-size: 16px; }
 .listing-cats{ font-family: var(--font-body); font-size: 13px; color: var(--fg-dim); }
 .listing-price{ font-family: var(--font-mono); font-size: 13px; color: var(--fg-dim); }
-.listing-status{ font-family: var(--font-body); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; text-align: right; }
+.listing-status{
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: right;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+button.listing-status{ cursor: pointer; }
 .listing-status.buy_now{ color: var(--blue); }
 .listing-status.make_offer{ color: var(--fg-dim); }
 .listing-status.private{ color: var(--fg-faint); }
+button.listing-status.private:hover{ color: var(--blue); }
 .listing-empty{ padding: 60px 0; text-align: center; color: var(--fg-dim); font-family: var(--font-body); font-size: 14px; }
 
 /* ============================================================
@@ -696,7 +751,13 @@ footer a:hover{ color: var(--fg); }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--blue);
+  /* !important: Atom'''s own pay-with-atom.js sets an inline
+     background: grey while it fetches a price token on load, then
+     swaps to its own gradient once that resolves — both via plain
+     (non-!important) inline styles, which briefly flash grey. This
+     beats that inline style either way, so the button reads as one
+     steady brand-blue instead of flickering. */
+  background: var(--blue) !important;
   color: #fff;
   border: none;
   border-radius: 999px;

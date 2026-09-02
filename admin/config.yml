@@ -31,7 +31,7 @@ collections:
               - { label: "Logo (static image)", name: "logo", widget: "image", required: false, hint: "Optional. Used if no logo video is set." }
               - { label: "Logo (video, e.g. an animated mark)", name: "logoVideo", widget: "file", required: false, hint: "Optional mp4/webm. Takes priority over the static logo image on the lander page." }
               - { label: "Tagline", name: "tagline", widget: "string", required: false }
-              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Description", name: "description", widget: "text", required: false }
               - label: "Categories"
                 name: "category"
                 widget: "list"
