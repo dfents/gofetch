@@ -91,23 +91,8 @@
       "extension": "app",
       "pricingMode": "buy_now",
       "price": 2028,
-      "category": []
-    },
-    {
-      "domain": "voxpop.xyz",
-      "extension": "xyz",
-      "logo": "",
-      "logoVideo": "",
-      "tagline": "",
-      "description": "",
-      "category": [
-        "media"
-      ],
-      "pricingMode": "buy_now",
-      "price": 99,
-      "featured": false,
-      "hasLander": true,
-      "saleType": "liquidation"
+      "category": [],
+      "description": "..."
     }
   ]
 }
