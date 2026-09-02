@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GoFetch — Digital assets worth owning</title>
 <meta name="description" content="GoFetch is a privately held collection of exceptional domain names, presented and made available for acquisition by the Fenton / Butcher partnership.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 fill=%22%2315130E%22/><g fill=%22none%22 stroke=%22%23E8A33D%22 stroke-width=%221.6%22><line x1=%2212%22 y1=%225%22 x2=%225%22 y2=%2213%22/><line x1=%2212%22 y1=%225%22 x2=%2219%22 y2=%2213%22/><line x1=%225%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/><line x1=%2219%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/></g><circle cx=%2212%22 cy=%225%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%225%22 cy=%2213%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%2219%22 cy=%2213%22 r=%221.6%22 fill=%22%23E8A33D%22/><circle cx=%2212%22 cy=%2220%22 r=%221.9%22 fill=%22%23E8A33D%22/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 fill=%22%23FFFFFF%22/><g fill=%22none%22 stroke=%22%23131417%22 stroke-width=%221.6%22><line x1=%2212%22 y1=%225%22 x2=%225%22 y2=%2213%22/><line x1=%2212%22 y1=%225%22 x2=%2219%22 y2=%2213%22/><line x1=%225%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/><line x1=%2219%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/></g><circle cx=%2212%22 cy=%225%22 r=%221.6%22 fill=%22%23131417%22/><circle cx=%225%22 cy=%2213%22 r=%221.6%22 fill=%22%23131417%22/><circle cx=%2219%22 cy=%2213%22 r=%221.6%22 fill=%22%23131417%22/><circle cx=%2212%22 cy=%2220%22 r=%221.9%22 fill=%22%232E5CDB%22/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css">
 <script defer src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
@@ -23,6 +23,7 @@
     <nav class="main-nav">
       <a href="/" class="current">Home</a>
       <a href="/collection.html">Collection</a>
+      <a href="/liquidate.html">Deals</a>
       <a href="/about.html">About</a>
     </nav>
     <a class="nav-cta" href="#" data-enquire="">Contact</a>
@@ -35,35 +36,61 @@
 
   <section class="hero">
     <div class="container">
-      <div class="hero-eyebrow mono">Privately held collection</div>
-      <h1 class="hero-word">Fetch the<br>right name<span class="cursor">&nbsp;</span></h1>
+      <div class="hero-eyebrow">Privately held collection</div>
+      <h1 class="hero-word">Fetch the right name</h1>
       <p class="hero-line">GoFetch represents a curated portfolio of exceptional domain names — a small public collection, and a much larger one held privately.</p>
 
       <div class="terminal">
-        <div class="terminal-bar">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <span style="margin-left:6px;">gofetch — retrieval terminal</span>
-        </div>
         <form id="terminal-form" class="terminal-form">
           <span class="terminal-prompt">&gt;</span>
-          <input id="terminal-input" class="terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Search the collection...">
-          <button class="terminal-submit" type="submit">Fetch</button>
+          <input id="terminal-input" class="terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Search the collection…">
+          <button class="terminal-submit" type="submit">Search</button>
         </form>
         <div id="terminal-result" class="terminal-result"></div>
       </div>
     </div>
   </section>
 
+  <section class="handpicked-band">
+    <div class="container">
+      <div class="handpicked-head">
+        <div>
+          <div class="handpicked-eyebrow">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#B6862E" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3 5.7 20.7 8 13.6l-6-4.4h7.6z"/></svg>
+            Handpicked by Daniel
+          </div>
+          <div class="handpicked-title">Names I'm watching right now</div>
+        </div>
+        <div class="handpicked-sub">Not from the GoFetch collection — names currently at auction or buy-now elsewhere that caught my eye.</div>
+      </div>
+      <div id="handpicked-grid" class="handpicked-grid"></div>
+    </div>
+  </section>
+
   <section id="featured">
     <div class="container">
       <div class="section-head">
-        <div>
-          <div class="section-eyebrow">Selected inventory</div>
-          <h2 class="section-title">Featured assets</h2>
+        <div class="section-eyebrow">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B6862E" stroke-width="1.6"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></svg>
+          Featured assets
         </div>
         <a class="section-link" href="/collection.html">View full collection →</a>
       </div>
       <div id="featured-grid" class="asset-grid"></div>
+    </div>
+  </section>
+
+  <section id="liquidate-home">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow" style="color:#D5473B;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D5473B" stroke-width="1.8"><path d="M20.59 13.41L11 3.83A2 2 0 0 0 9.59 3.2L4 3a1 1 0 0 0-1 1l.2 5.59a2 2 0 0 0 .58 1.41l9.59 9.59a2 2 0 0 0 2.83 0l4.4-4.4a2 2 0 0 0-.01-2.79z"/><circle cx="7.5" cy="7.5" r="1.2" fill="#D5473B" stroke="none"/></svg>
+          Liquidation &amp; current deals
+        </div>
+        <a class="section-link" href="/liquidate.html" style="color:#D5473B;">See all →</a>
+      </div>
+      <div class="deals-intro">Names priced to sell now — some marked down, some at fixed liquidation pricing. No live bidding, just buy now or make an offer.</div>
+      <div id="deals-list" class="deals-list"></div>
     </div>
   </section>
 
@@ -90,7 +117,7 @@
 <footer>
   <div class="container">
     <span>© <span id="year"></span> GoFetch — a Fenton / Butcher partnership</span>
-    <span><a href="/about.html">About</a> &nbsp;·&nbsp; <a href="/collection.html">Collection</a> &nbsp;·&nbsp; <a href="#" data-enquire="">Contact</a></span>
+    <span><a href="/about.html">About</a> &nbsp;·&nbsp; <a href="/collection.html">Collection</a> &nbsp;·&nbsp; <a href="/liquidate.html">Deals</a> &nbsp;·&nbsp; <a href="#" data-enquire="">Contact</a></span>
   </div>
 </footer>
 

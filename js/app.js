@@ -1,12 +1,14 @@
 /* ============================================================
    GoFetch — shared app logic
-   Loads inventory from data/domains.json at runtime
+   Loads inventory from data/domains.json (and, where used,
+   data/picks.json) at runtime
    ============================================================ */
 
 (function () {
   "use strict";
 
   var DOMAINS = [];
+  var PICKS = [];
   var GOFETCH_HOSTS = ["gofetch.com", "www.gofetch.com", "localhost", "127.0.0.1"];
   var ATOM_PAY_TOKEN = "4f3f3a48bdbed5cb";
   var atomPayScriptLoaded = false;
@@ -367,7 +369,7 @@
   function initFeaturedGrid() {
     var grid = document.getElementById("featured-grid");
     if (!grid) return;
-    var featured = DOMAINS.filter(function (d) { return d.featured; }).slice(0, 6);
+    var featured = DOMAINS.filter(function (d) { return d.featured; }).slice(0, 4);
     grid.innerHTML = featured.map(assetCardHtml).join("");
   }
 
@@ -375,12 +377,118 @@
     return (
       '<a class="asset-card" href="/lander.html?d=' + encodeURIComponent(d.domain) + '">' +
       logoImg(d, "asset-logo") +
-      '<span class="asset-domain mono">' + d.domain + "</span>" +
-      '<span class="asset-cats mono">' + d.category.join(" · ") + "</span>" +
-      '<span class="asset-status mono ' + d.pricingMode + '">' + STATUS_LABEL[d.pricingMode] + "</span>" +
-      '<span class="asset-view mono">View asset →</span>' +
+      '<span class="asset-domain">' + d.domain + "</span>" +
+      '<span class="asset-cats">' + d.category.join(" · ") + "</span>" +
+      '<span class="asset-status badge badge-' + d.pricingMode + '">' + STATUS_LABEL[d.pricingMode] + "</span>" +
       "</a>"
     );
+  }
+
+  /* ----------------------------------------------------------
+     Handpicked by Daniel (homepage) — editorial picks that live
+     on OTHER marketplaces, not part of the GoFetch inventory.
+     Sourced from data/picks.json, managed via the CMS or the
+     bulk-listing admin tool.
+     ---------------------------------------------------------- */
+  function initHandpickedGrid() {
+    var grid = document.getElementById("handpicked-grid");
+    if (!grid) return;
+    var band = grid.closest(".handpicked-band");
+    if (!PICKS.length) {
+      if (band) band.style.display = "none";
+      return;
+    }
+    grid.innerHTML = PICKS.slice(0, 6).map(pickCardHtml).join("");
+  }
+
+  function pickCardHtml(p) {
+    var badgeClass = p.status === "buy_now" ? "badge-buy_now" : "badge-liquidation";
+    var badgeLabel = p.status === "buy_now" ? "Buy now" : "At auction";
+    return (
+      '<div class="pick-card">' +
+        '<div class="pick-card-top">' +
+          '<span class="badge ' + badgeClass + '">' + badgeLabel + "</span>" +
+          '<span class="pick-platform">via ' + escapeHtml(p.platform || "") + "</span>" +
+        "</div>" +
+        '<div class="pick-name">' + escapeHtml(p.name || "") + "</div>" +
+        '<div class="pick-note">' + escapeHtml(p.note || "") + "</div>" +
+        '<div class="pick-foot">' +
+          '<span class="pick-price">' + escapeHtml(p.price || "") + "</span>" +
+          '<a class="pick-link" href="' + (p.url || "#") + '" target="_blank" rel="noopener">View listing ↗</a>' +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  /* ----------------------------------------------------------
+     Liquidation & current deals — GoFetch's own names, tagged
+     saleType: "liquidation" in data/domains.json. No live bidding:
+     just Buy now (AtomPay) or Make an offer.
+     ---------------------------------------------------------- */
+  function liquidationDomains() {
+    return DOMAINS.filter(function (d) { return d.saleType === "liquidation"; });
+  }
+
+  function dealRowHtml(d) {
+    var isBuyNow = d.pricingMode === "buy_now" && d.price;
+    var ctaLabel = isBuyNow ? "Buy now" : "Make offer";
+    var ctaAttr = isBuyNow
+      ? 'href="/lander.html?d=' + encodeURIComponent(d.domain) + '"'
+      : 'href="#" data-enquire="' + escapeHtml(d.domain) + '"';
+    var ctaTag = isBuyNow ? "a" : "button";
+    return (
+      '<div class="deal-row">' +
+        '<span class="badge badge-liquidation deal-badge">Liquidation</span>' +
+        '<span class="deal-name">' + d.domain + "</span>" +
+        '<span class="deal-meta">' + (d.tagline || (isBuyNow ? "Liquidation pricing · fixed" : "Liquidation pricing · offers invited")) + "</span>" +
+        '<span class="deal-price">' + (isBuyNow ? fmtPrice(d) : "Make offer") + "</span>" +
+        "<" + ctaTag + ' class="deal-cta' + (isBuyNow ? "" : " is-offer") + '" ' + ctaAttr + ">" + ctaLabel + "</" + ctaTag + ">" +
+      "</div>"
+    );
+  }
+
+  function initDealsList() {
+    var list = document.getElementById("deals-list");
+    if (!list) return;
+    var deals = liquidationDomains().slice(0, 6);
+    var section = list.closest("#liquidate-home");
+    if (!deals.length) {
+      if (section) section.style.display = "none";
+      return;
+    }
+    list.innerHTML = deals.map(dealRowHtml).join("");
+  }
+
+  /* ----------------------------------------------------------
+     /liquidate.html — the full liquidation listing page
+     ---------------------------------------------------------- */
+  function liqCardHtml(d) {
+    var isBuyNow = d.pricingMode === "buy_now" && d.price;
+    var cta = isBuyNow
+      ? atomPayButtonHTML(d)
+      : '<button class="btn btn-primary" style="width:100%;justify-content:center;" data-enquire="' + escapeHtml(d.domain) + '">Make an offer</button>';
+    return (
+      '<div class="liq-card">' +
+        '<span class="badge badge-liquidation">Liquidation</span>' +
+        '<span class="liq-name">' + d.domain + "</span>" +
+        '<span class="liq-cats">' + (d.category || []).join(" · ") + "</span>" +
+        '<span class="liq-price">' + (isBuyNow ? fmtPrice(d) : "Make offer") + "</span>" +
+        '<div class="liq-actions">' + cta + "</div>" +
+      "</div>"
+    );
+  }
+
+  function initLiquidatePage() {
+    var grid = document.getElementById("liquidate-grid");
+    if (!grid) return;
+    var items = liquidationDomains();
+    if (!items.length) {
+      grid.outerHTML = '<div class="liquidate-empty">Nothing listed here yet — check back soon, or <a href="#" data-enquire="" data-mode="finder" style="text-decoration:underline;">tell us what you\'re after</a>.</div>';
+      return;
+    }
+    grid.innerHTML = items.map(liqCardHtml).join("");
+    var hasBuyNow = items.some(function (d) { return d.pricingMode === "buy_now" && d.price; });
+    if (hasBuyNow) loadAtomPayScript();
   }
 
   /* ----------------------------------------------------------
@@ -471,7 +579,7 @@
         '<div class="container lander-center">' +
         '<div class="lander-hero"><h1 class="lander-domain mono">Asset not listed</h1></div>' +
         '<div class="lander-badge mono">Not found</div>' +
-        '<p class="lander-desc">This domain isn\u2019t in the public collection. Much of the portfolio is held privately \u2014 tell us what you\u2019re looking for and we\u2019ll check.</p>' +
+        '<p class="lander-desc">This domain isn’t in the public collection. Much of the portfolio is held privately — tell us what you’re looking for and we’ll check.</p>' +
         '<div class="lander-actions"><button class="btn btn-primary" data-enquire="' + (name ? escapeHtml(name) : "") + '" data-mode="finder">Tell us what you need</button>' +
         '<a class="btn btn-ghost" href="/collection.html">Browse collection</a></div>' +
         "</div></div>";
@@ -540,7 +648,7 @@
       var body = new URLSearchParams();
       data.forEach(function (v, k) { body.append(k, v); });
 
-      status.textContent = "Sending\u2026";
+      status.textContent = "Sending…";
       status.className = "form-status";
 
       fetch("/", {
@@ -549,13 +657,13 @@
         body: body.toString(),
       })
         .then(function () {
-          status.textContent = "Enquiry received. We\u2019ll respond directly.";
+          status.textContent = "Enquiry received. We’ll respond directly.";
           status.className = "form-status ok";
           form.reset();
           setTimeout(closeModal, 1600);
         })
         .catch(function () {
-          status.textContent = "Couldn\u2019t send \u2014 please email hello@gofetch.com directly.";
+          status.textContent = "Couldn’t send — please email hello@gofetch.com directly.";
           status.className = "form-status err";
         });
     });
@@ -563,8 +671,9 @@
 
   /* ----------------------------------------------------------
      Boot — load inventory data, then run page logic.
-     Data lives in data/domains.json so it can be edited through
-     the /admin CMS without touching code.
+     Data lives in data/domains.json (and data/picks.json for the
+     homepage's Handpicked band) so it can be edited through the
+     /admin CMS or the bulk-listing tool without touching code.
      ---------------------------------------------------------- */
   function boot() {
     document.querySelectorAll(".mark-slot").forEach(function (el) {
@@ -588,11 +697,14 @@
         }
       } else {
         initTerminalSearch();
+        initHandpickedGrid();
         initFeaturedGrid();
+        initDealsList();
       }
     }
 
     initCollection();
+    initLiquidatePage();
     initStandaloneLander();
     initEnquiryModal();
 
@@ -600,20 +712,26 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    fetch("/data/domains.json")
-      .then(function (res) {
+    Promise.all([
+      fetch("/data/domains.json").then(function (res) {
         if (!res.ok) throw new Error("domains.json fetch failed: " + res.status);
         return res.json();
-      })
-      .then(function (data) {
+      }).then(function (data) {
         DOMAINS = data.domains || [];
-        boot();
-      })
-      .catch(function (err) {
+      }).catch(function (err) {
         console.error("GoFetch: failed to load inventory data", err);
         DOMAINS = [];
-        boot();
-      });
+      }),
+      fetch("/data/picks.json").then(function (res) {
+        if (!res.ok) throw new Error("picks.json fetch failed: " + res.status);
+        return res.json();
+      }).then(function (data) {
+        PICKS = data.picks || [];
+      }).catch(function (err) {
+        console.error("GoFetch: failed to load handpicked picks", err);
+        PICKS = [];
+      }),
+    ]).then(boot);
   });
 
   window.GoFetch = { markSVG: markSVG };
