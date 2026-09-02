@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoFetch — Bulk add</title>
+<link rel="icon" href="data:,">
+<style>
+  :root{ --bg:#fff; --fg:#131417; --fg-dim:#63666D; --blue:#2E5CDB; --line:#E4E4E1; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--fg); font-family: "Public Sans", system-ui, sans-serif; padding: 40px 24px; }
+  .wrap{ max-width: 720px; margin: 0 auto; }
+  h1{ font-size: 22px; margin: 0 0 6px; }
+  p{ color: var(--fg-dim); font-size: 14px; line-height: 1.6; }
+  label{ display:block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fg-dim); margin: 20px 0 8px; }
+  input, textarea{ width: 100%; border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; font-family: inherit; font-size: 14px; }
+  textarea{ min-height: 260px; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 13px; resize: vertical; }
+  button{ margin-top: 20px; background: var(--blue); color: #fff; border: none; border-radius: 999px; padding: 12px 22px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  button:hover{ background: #24479C; }
+  button:disabled{ background: #ABC; cursor: default; }
+  .status{ margin-top: 16px; font-size: 14px; white-space: pre-wrap; }
+  .status.ok{ color: #2E7D4F; }
+  .status.err{ color: #D5473B; }
+  code{ background: #F2F2F1; padding: 1px 5px; border-radius: 3px; }
+  .format{ background: #F7F7F6; border: 1px solid var(--line); border-radius: 4px; padding: 14px 16px; font-size: 13px; color: var(--fg-dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Bulk add / price domains</h1>
+  <p>Paste one row per line. Publishing here commits straight to <code>data/domains.json</code> on the live site — it goes live within a minute or two, same as any other change.</p>
+
+  <div class="format">
+    <strong>Format:</strong> <code>domain, price, pricingMode, category|category, saleType</code><br>
+    Only the domain is required. <code>pricingMode</code> is <code>buy_now</code>, <code>make_offer</code>, or <code>private</code> (defaults to buy_now if a price is set, otherwise make_offer). <code>saleType</code> is optional — type <code>liquidation</code> to show it in the Liquidation &amp; current deals section.<br><br>
+    Example:<br>
+    <code>niceword.com, 99, buy_now, Brandable, liquidation</code><br>
+    <code>otherword.io, , make_offer, AI</code><br>
+    <code>thirdword.net</code>
+  </div>
+
+  <label for="secret">Admin password</label>
+  <input id="secret" type="password" autocomplete="off" placeholder="the password you set as ADMIN_SECRET">
+
+  <label for="rows">Domains to add or update</label>
+  <textarea id="rows" placeholder="niceword.com, 99, buy_now, Brandable, liquidation"></textarea>
+
+  <button id="submit">Publish</button>
+  <div id="status" class="status"></div>
+</div>
+
+<script>
+  document.getElementById("submit").addEventListener("click", async function () {
+    var btn = this;
+    var statusEl = document.getElementById("status");
+    var secret = document.getElementById("secret").value;
+    var rows = document.getElementById("rows").value;
+    if (!secret || !rows.trim()) {
+      statusEl.textContent = "Enter the admin password and at least one row.";
+      statusEl.className = "status err";
+      return;
+    }
+    btn.disabled = true;
+    statusEl.textContent = "Publishing…";
+    statusEl.className = "status";
+    try {
+      var res = await fetch("/.netlify/functions/bulk-add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ secret: secret, rows: rows }),
+      });
+      var text = await res.text();
+      if (!res.ok) throw new Error(text);
+      var data = JSON.parse(text);
+      statusEl.textContent = "Published — " + data.added + " added, " + data.updated + " updated. " + data.total + " domains total. Live in about a minute.";
+      statusEl.className = "status ok";
+      document.getElementById("rows").value = "";
+    } catch (e) {
+      statusEl.textContent = "Failed: " + e.message;
+      statusEl.className = "status err";
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
