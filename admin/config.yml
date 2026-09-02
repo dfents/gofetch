@@ -32,6 +32,7 @@ collections:
               - { label: "Logo (video, e.g. an animated mark)", name: "logoVideo", widget: "file", required: false, hint: "Optional mp4/webm. Takes priority over the static logo image on the lander page." }
               - { label: "Tagline", name: "tagline", widget: "string", required: false }
               - { label: "Description", name: "description", widget: "text", required: false }
+              - { label: "Telegram handle included in this sale (optional, e.g. blackbadge -- no @)", name: "telegramHandle", widget: "string", required: false, hint: "Only set this when the domain is being sold together with a matching Telegram handle. Shows a distinct \"Includes @handle on Telegram\" badge on the lander, separate from the site's general Telegram contact button." }
               - label: "Categories"
                 name: "category"
                 widget: "list"
@@ -55,6 +56,37 @@ collections:
                 options:
                   - { label: "None", value: "" }
                   - { label: "Liquidation", value: "liquidation" }
+
+  - name: "bundles"
+    label: "Bundles"
+    files:
+      - name: "bundles"
+        label: "Domain Bundles"
+        file: "data/bundles.json"
+        description: "Sell two or more domains together as one listing (optionally paired with a Telegram handle). Each renders at /bundle.html?b=slug and appears in the Bundles strip on the Collection page."
+        fields:
+          - label: "Bundles"
+            name: "bundles"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.pricingMode}}"
+            fields:
+              - { label: "Bundle name (shown as the listing title)", name: "name", widget: "string", required: false, hint: "Optional. If left blank, the domain names themselves are used as the title." }
+              - { label: "Slug (used in the URL, e.g. blackbadge-bundle)", name: "slug", widget: "string" }
+              - label: "Domains in this bundle"
+                name: "domains"
+                widget: "list"
+                field: { label: "Domain", name: "value", widget: "string" }
+              - { label: "Telegram handle included (optional, e.g. blackbadge -- no @)", name: "telegramHandle", widget: "string", required: false }
+              - { label: "Description", name: "description", widget: "text", required: false }
+              - label: "Acquisition mode"
+                name: "pricingMode"
+                widget: "select"
+                options:
+                  - { label: "Make offer", value: "make_offer" }
+                  - { label: "Privately held", value: "private" }
+                hint: "Bundles are sold via enquiry only -- AtomPay's instant checkout is tied to one specifically-owned domain, so Buy now isn't available here."
+              - { label: "Price guide text (optional, e.g. \"From $5,000\")", name: "priceText", widget: "string", required: false }
+              - { label: "Featured on homepage", name: "featured", widget: "boolean", default: false }
 
   - name: "picks"
     label: "Handpicked by Daniel"

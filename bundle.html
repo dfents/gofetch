@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Collection — GoFetch</title>
-<meta name="description" content="Browse the publicly listed portion of the GoFetch domain collection. Filter by extension, category and acquisition type.">
+<title>Bundle — GoFetch</title>
+<meta name="description" content="A bundle of domain names, sold together, managed by GoFetch.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 fill=%22%23FFFFFF%22/><g fill=%22none%22 stroke=%22%23131417%22 stroke-width=%221.6%22><line x1=%2212%22 y1=%225%22 x2=%225%22 y2=%2213%22/><line x1=%2212%22 y1=%225%22 x2=%2219%22 y2=%2213%22/><line x1=%225%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/><line x1=%2219%22 y1=%2213%22 x2=%2212%22 y2=%2220%22/></g><circle cx=%2212%22 cy=%225%22 r=%221.6%22 fill=%22%23131417%22/><circle cx=%225%22 cy=%2213%22 r=%221.6%22 fill=%22%23131417%22/><circle cx=%2219%22 cy=%2213%22 r=%221.6%22 fill=%22%23131417%22/><circle cx=%2212%22 cy=%2220%22 r=%221.9%22 fill=%22%232E5CDB%22/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="pre-boot">
 
 <header class="site-header">
   <div class="container">
@@ -21,7 +21,7 @@
     </a>
     <nav class="main-nav">
       <a href="/">Home</a>
-      <a href="/collection.html" class="current">Collection</a>
+      <a href="/collection.html">Collection</a>
       <a href="/liquidate.html">Deals</a>
       <a href="/about.html">About</a>
     </nav>
@@ -30,35 +30,7 @@
 </header>
 
 <main>
-  <section class="page-hero">
-    <div class="container">
-      <div class="section-eyebrow">Inventory</div>
-      <h1 class="page-title">The collection</h1>
-      <p class="page-lede">A working set of what's publicly listed. A larger portion of the portfolio is held privately — if you don't see what you're after, <a href="#" data-enquire="" data-mode="finder" style="text-decoration:underline;">ask us directly</a>.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-      <div id="bundle-strip" class="bundle-strip"></div>
-      <div class="collection-layout">
-        <aside class="filters">
-          <div id="filter-mode" class="filter-group"></div>
-          <div id="filter-ext" class="filter-group"></div>
-          <div id="filter-cat" class="filter-group"></div>
-        </aside>
-        <div>
-          <div class="collection-searchbar">
-            <input id="collection-search-input" class="collection-search-input" type="text" autocomplete="off" spellcheck="false" placeholder="Search by name or category…">
-          </div>
-          <div id="collection-count" class="collection-count"></div>
-          <div id="search-note" class="search-note"></div>
-          <div id="listing" class="listing"></div>
-          <div id="listing-fallback"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div id="standalone-bundle"></div>
 </main>
 
 <footer>
