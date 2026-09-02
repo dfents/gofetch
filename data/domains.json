@@ -93,6 +93,381 @@
       "price": 2028,
       "category": [],
       "description": "..."
+    },
+    {
+      "domain": "diogenes.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "werewolf.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "vcr.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "acoustics.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "nexustech.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "cassette.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "cassa.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "lumberjack.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "goodhands.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "ballad.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "fent.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "canaries.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "orang.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "doreen.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "denial.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "schmooze.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "aloof.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "anotherme.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "chants.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "glasseye.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "shobha.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "intercourse.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "omelas.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "mukto.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
+    },
+    {
+      "domain": "mogshot.ai",
+      "extension": "ai",
+      "logo": "",
+      "logoVideo": "",
+      "tagline": "",
+      "description": "",
+      "category": [
+        "Brandable"
+      ],
+      "pricingMode": "AI",
+      "price": null,
+      "featured": false,
+      "hasLander": true
     }
   ]
 }
