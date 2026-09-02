@@ -430,13 +430,14 @@ section:last-of-type{ border-bottom: none; }
 }
 .asset-card{
   background: var(--bg);
-  padding: 22px 20px 20px 0;
+  padding: 22px 26px 20px 0;
   border-right: 1px solid var(--line);
   display: flex;
   flex-direction: column;
   gap: 8px;
   min-height: 170px;
 }
+.asset-card + .asset-card{ padding-left: 26px; }
 .asset-card:last-child{ border-right: none; }
 .asset-card:hover .asset-domain{ color: var(--blue); }
 .asset-logo{
