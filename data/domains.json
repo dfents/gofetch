@@ -96,378 +96,386 @@
     },
     {
       "domain": "diogenes.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "werewolf.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "vcr.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "acoustics.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "nexustech.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "cassette.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "cassa.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "lumberjack.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "goodhands.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "ballad.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "fent.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "canaries.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "orang.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "doreen.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "denial.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "schmooze.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "aloof.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "anotherme.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "chants.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "glasseye.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "shobha.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "intercourse.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "omelas.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "mukto.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
-      "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "extension": "ai"
     },
     {
       "domain": "mogshot.ai",
-      "extension": "ai",
+      "price": null,
+      "pricingMode": "make_offer",
       "logo": "",
-      "logoVideo": "",
+      "featured": false,
       "tagline": "",
+      "logoVideo": "",
+      "hasLander": true,
       "description": "",
       "category": [
         "AI"
       ],
+      "extension": "ai"
+    },
+    {
+      "featured": true,
+      "hasLander": true,
+      "domain": "legions.com",
+      "extension": "com",
       "pricingMode": "make_offer",
-      "price": null,
-      "featured": false,
-      "hasLander": true
+      "saleType": ""
     }
   ]
 }
