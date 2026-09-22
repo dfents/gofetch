@@ -373,7 +373,7 @@
       '<a class="asset-card" href="/lander.html?d=' + encodeURIComponent(d.domain) + '">' +
       logoImg(d, "asset-logo") +
       '<span class="asset-domain">' + d.domain + "</span>" +
-      '<span class="asset-cats">' + d.category.join(" · ") + "</span>" +
+      '<span class="asset-cats">' + (d.category || []).join(" · ") + "</span>" +
       '<span class="asset-status badge badge-' + d.pricingMode + '">' + STATUS_LABEL[d.pricingMode] + "</span>" +
       "</a>"
     );
@@ -529,7 +529,7 @@
     return (
       '<div class="listing-row" data-href="' + href + '">' +
       '<a class="listing-domain mono" href="' + href + '">' + d.domain + telegramTag + "</a>" +
-      '<span class="listing-cats mono">' + d.category.join(" / ") + "</span>" +
+      '<span class="listing-cats mono">' + (d.category || []).join(" / ") + "</span>" +
       '<span class="listing-price mono">' + fmtPrice(d) + "</span>" +
       statusHtml +
       "</div>"
@@ -591,7 +591,7 @@
     var state = { ext: "all", cat: "all", mode: "all" };
 
     var exts = uniqueSorted(DOMAINS.map(function (d) { return d.extension; }));
-    var cats = uniqueSorted(DOMAINS.reduce(function (acc, d) { return acc.concat(d.category); }, []));
+    var cats = uniqueSorted(DOMAINS.reduce(function (acc, d) { return acc.concat(d.category || []); }, []));
 
     renderFilterGroup("filter-ext", "Extension", ["all"].concat(exts), state, "ext");
     renderFilterGroup("filter-cat", "Category", ["all"].concat(cats), state, "cat");
@@ -631,7 +631,7 @@
     function render() {
       var base = DOMAINS.filter(function (d) {
         if (state.ext !== "all" && d.extension !== state.ext) return false;
-        if (state.cat !== "all" && d.category.indexOf(state.cat) === -1) return false;
+        if (state.cat !== "all" && (d.category || []).indexOf(state.cat) === -1) return false;
         if (state.mode !== "all" && d.pricingMode !== state.mode) return false;
         return true;
       });
@@ -646,7 +646,7 @@
       } else {
         var matched = base.filter(function (d) {
           return d.domain.toLowerCase().indexOf(q) !== -1 ||
-            d.category.join(" ").toLowerCase().indexOf(q) !== -1;
+            (d.category || []).join(" ").toLowerCase().indexOf(q) !== -1;
         });
 
         if (matched.length) {
@@ -826,43 +826,59 @@
      homepage's Handpicked band) so it can be edited through the
      /admin CMS or the bulk-listing tool without touching code.
      ---------------------------------------------------------- */
-  function boot() {
-    document.querySelectorAll(".mark-slot").forEach(function (el) {
-      el.innerHTML = markSVG(el.dataset.size || 22);
-    });
-
-    var homeApp = document.getElementById("home-app");
-    if (homeApp) {
-      var hostRecord = currentHostRecord();
-      if (hostRecord) {
-        document.title = hostRecord.domain + " — GoFetch";
-        homeApp.style.display = "none";
-        var siteHeader = document.querySelector(".site-header");
-        var siteFooter = document.querySelector("footer");
-        if (siteHeader) siteHeader.style.display = "none";
-        if (siteFooter) siteFooter.style.display = "none";
-        var landerRoot = document.getElementById("lander-app");
-        if (landerRoot) {
-          landerRoot.style.display = "block";
-          renderLanderInto(landerRoot, hostRecord);
-        }
-      } else {
-        initTerminalSearch();
-        initHandpickedGrid();
-        initFeaturedGrid();
-        initDealsList();
-      }
+  /* Runs one boot section in isolation: a bug or bad data record in one
+     section (e.g. a listing missing a field) logs to the console instead
+     of throwing, so it can't stop the rest of boot() from running. */
+  function safeCall(fn) {
+    try {
+      fn();
+    } catch (err) {
+      console.error("GoFetch: \"" + (fn.name || "section") + "\" failed to render", err);
     }
+  }
 
-    initCollection();
-    initBundleStrip();
-    initLiquidatePage();
-    initStandaloneLander();
-    initStandaloneBundle();
-    initEnquiryModal();
-    initListingRowNav();
+  function boot() {
+    try {
+      document.querySelectorAll(".mark-slot").forEach(function (el) {
+        el.innerHTML = markSVG(el.dataset.size || 22);
+      });
 
-    document.body.classList.remove("pre-boot");
+      var homeApp = document.getElementById("home-app");
+      if (homeApp) {
+        var hostRecord = currentHostRecord();
+        if (hostRecord) {
+          document.title = hostRecord.domain + " — GoFetch";
+          homeApp.style.display = "none";
+          var siteHeader = document.querySelector(".site-header");
+          var siteFooter = document.querySelector("footer");
+          if (siteHeader) siteHeader.style.display = "none";
+          if (siteFooter) siteFooter.style.display = "none";
+          var landerRoot = document.getElementById("lander-app");
+          if (landerRoot) {
+            landerRoot.style.display = "block";
+            safeCall(function renderLander() { renderLanderInto(landerRoot, hostRecord); });
+          }
+        } else {
+          safeCall(initTerminalSearch);
+          safeCall(initHandpickedGrid);
+          safeCall(initFeaturedGrid);
+          safeCall(initDealsList);
+        }
+      }
+
+      safeCall(initCollection);
+      safeCall(initBundleStrip);
+      safeCall(initLiquidatePage);
+      safeCall(initStandaloneLander);
+      safeCall(initStandaloneBundle);
+      safeCall(initEnquiryModal);
+      safeCall(initListingRowNav);
+    } finally {
+      // Always reveal the page, even if a section above threw outside
+      // safeCall (e.g. the mark-slot loop) — a hidden-forever page is
+      // worse than one with a single broken section.
+      document.body.classList.remove("pre-boot");
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
