@@ -73,7 +73,7 @@
       <button id="enquiry-close" class="modal-close" aria-label="Close">&times;</button>
     </div>
     <p class="modal-sub">We reply directly — no account, no mailing list.</p>
-    <form id="enquiry-form" name="enquiry" method="POST" data-netlify="true" netlify-honeypot="enq-hp">
+    <form id="enquiry-form" name="enquiry" method="POST" data-netlify="true" data-netlify-recaptcha="true" netlify-honeypot="enq-hp">
       <input type="hidden" name="form-name" value="enquiry">
       <input type="text" id="enq-hp" name="enq-hp" class="hp-field" tabindex="-1" autocomplete="off">
       <div class="field"><label for="enq-name">Name</label><input id="enq-name" name="name" type="text" required></div>
