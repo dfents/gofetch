@@ -57,12 +57,14 @@
       <div class="field"><label for="enq-domain">Domain</label><input id="enq-domain" name="domain" type="text"></div>
       <div class="field"><label for="enq-budget">Offer / budget</label><input id="enq-budget" name="budget" type="text"></div>
       <div class="field"><label for="enq-message">Message</label><textarea id="enq-message" name="message"></textarea></div>
+      <div class="field" data-netlify-recaptcha="true"></div>
       <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Send enquiry</button>
       <div id="enquiry-status" class="form-status" role="status"></div>
     </form>
   </div>
 </div>
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="/js/app.js"></script>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f285a2dfdc5745afaf662cfd02bbb2a6"}'></script><!-- End Cloudflare Web Analytics -->
