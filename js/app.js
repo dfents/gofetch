@@ -795,6 +795,18 @@
         return;
       }
 
+      /* The reCAPTCHA checkbox (added to every enquiry form to stop the
+         spam-bot submissions we were getting) needs to be solved before
+         Netlify will accept the post -- check client-side first so a
+         skipped checkbox gets a clear message instead of the generic
+         "couldn't send" error. */
+      var recaptchaField = form.querySelector("[data-netlify-recaptcha]");
+      if (recaptchaField && window.grecaptcha && !grecaptcha.getResponse()) {
+        status.textContent = "Please tick the “I’m not a robot” box below.";
+        status.className = "form-status err";
+        return;
+      }
+
       var data = new FormData(form);
       var body = new URLSearchParams();
       data.forEach(function (v, k) { body.append(k, v); });
@@ -811,11 +823,13 @@
           status.textContent = "Enquiry received. We’ll respond directly.";
           status.className = "form-status ok";
           form.reset();
+          if (window.grecaptcha) grecaptcha.reset();
           setTimeout(closeModal, 1600);
         })
         .catch(function () {
           status.textContent = "Couldn’t send — please email hello@gofetch.com directly.";
           status.className = "form-status err";
+          if (window.grecaptcha) grecaptcha.reset();
         });
     });
   }

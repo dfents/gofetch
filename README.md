@@ -1,6 +1,6 @@
 # GoFetch
 
-Boutique domain-portfolio site for the Fenton / Butcher partnership.
+Boutique domain-portfolio and brokerage site for GoFetch.
 Static HTML/CSS/vanilla JS — no build step, no framework, deploy-ready for Netlify
 (same workflow as your other Netlify sites, e.g. zakisthebest.com).
 
