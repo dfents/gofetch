@@ -475,7 +475,10 @@
       "domain": "legions.com",
       "extension": "com",
       "pricingMode": "make_offer",
-      "saleType": ""
+      "saleType": "",
+      "category": [
+        "Brandable"
+      ]
     }
   ]
 }
